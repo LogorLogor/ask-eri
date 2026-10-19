@@ -71,7 +71,7 @@ export function publishEvidence(analysis: Analysis): Evidence {
   }
   const fields = Object.fromEntries(Object.entries(d).map(([key, { valid, missing, unknown, ambiguous, notApplicable }]) => [key, { valid, missing, unknown, ambiguous, notApplicable }])) as Record<string, FieldQuality>;
   return {
-    version: 'analysis-v2', analyzedAt: analysis.analyzedAt, collection: analysis.collection,
+    version: 'analysis-v2', analyzedAt: analysis.analyzedAt, collection: analysis.collection, longitudinal: analysis.longitudinal,
     period: { ...analysis.period, label }, quality: q, fields, signals,
     coverage: [{ ...SOURCE_COHORT, publishedRecords: q.includedRows, period: label }],
   };

@@ -1,6 +1,6 @@
 {
   "version": "analysis-v2",
-  "analyzedAt": "2026-10-19T17:32:19.896Z",
+  "analyzedAt": "2026-10-19T17:36:38.126Z",
   "collection": [
     {
       "date": "2026-10-07",
@@ -27,6 +27,11 @@
       "observations": 25
     }
   ],
+  "longitudinal": {
+    "status": "awaiting-matched-visits",
+    "verifiedMatchedBusinesses": 0,
+    "series": []
+  },
   "period": {
     "start": "2026-10-07",
     "end": "2026-10-15",

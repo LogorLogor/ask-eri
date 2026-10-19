@@ -1,5 +1,6 @@
 import { SOURCE_COLUMNS, MIN_RESPONSES, type SourceTable } from './source-schema.ts';
 import type { Analysis, Distribution } from './evidence-types.ts';
+import { analyzeLongitudinal } from './longitudinal.ts';
 
 const clean = (value: string) => value.trim().replace(/\s+/g, ' ').toLowerCase();
 const empty = (): Distribution => ({ counts: {}, valid: 0, missing: 0, unknown: 0, ambiguous: 0, notApplicable: 0 });
@@ -16,7 +17,7 @@ const recordOptions = new Set(['memory notebook/paper', 'calculator/manual total
 function count(distribution: Distribution, value: string, options: Record<string, string>) {
   const normalized = clean(value);
   if (!normalized) { distribution.missing++; return; }
-  const key = options[normalized];
+  const key = Object.hasOwn(options, normalized) ? options[normalized] : undefined;
   if (!key) { distribution.unknown++; return; }
   distribution.valid++;
   distribution.counts[key] = (distribution.counts[key] ?? 0) + 1;
@@ -29,7 +30,7 @@ function validDate(value: string, today: string) {
 }
 
 // Pure staged analysis. The returned object contains no submission/merchant identifiers.
-export function analyze(table: SourceTable, now = new Date()): Analysis {
+export function analyze(table: SourceTable, now = new Date(), panelApprovalReference?: string): Analysis {
   if (table.headers.length !== SOURCE_COLUMNS.length || table.headers.some((h, i) => clean(h) !== clean(SOURCE_COLUMNS[i].header))) {
     throw new Error('Source schema changed; publication held');
   }
@@ -102,5 +103,5 @@ export function analyze(table: SourceTable, now = new Date()): Analysis {
   dates.sort();
   const byDate = new Map<string, number>();
   for (const date of dates) byDate.set(date, (byDate.get(date) ?? 0) + 1);
-  return { analyzedAt: now.toISOString(), period: { start: dates[0], end: dates.at(-1)! }, quality, distributions, collection: Array.from(byDate, ([date, observations]) => ({ date, observations })) };
+  return { analyzedAt: now.toISOString(), period: { start: dates[0], end: dates.at(-1)! }, quality, distributions, collection: Array.from(byDate, ([date, observations]) => ({ date, observations })), longitudinal: analyzeLongitudinal(table, today, panelApprovalReference) };
 }
