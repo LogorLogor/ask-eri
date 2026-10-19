@@ -4,6 +4,7 @@ import { useId, useState } from 'react';
 import { ArrowUpRight, ArrowRight, ShoppingBasket, Shirt, CupSoda, Smartphone, Lamp, Store, FlaskConical, Package, Check, CircleHelp } from 'lucide-react';
 import { calculateRestockingScenario, sandboxResponses, type SandboxResponse } from '../lib/sandbox-preview';
 import styles from './SandboxPreview.module.css';
+import type { DecisionInputs } from '../lib/decision-model';
 
 const stalls = [
   { name: 'Grocery', Icon: ShoppingBasket }, { name: 'Drinks', Icon: CupSoda },
@@ -12,7 +13,7 @@ const stalls = [
 ];
 const currency = (value: number) => new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN', maximumFractionDigits: 2 }).format(value);
 
-export default function SandboxPreview({ onExploreEvidence }: { onExploreEvidence: () => void }) {
+export default function SandboxPreview({ onExploreEvidence, onRequest }: { onExploreEvidence: () => void; onRequest: (inputs: DecisionInputs) => void }) {
   const uid = useId();
   const [budget, setBudget] = useState('100000');
   const [unitCost, setUnitCost] = useState('1000');
@@ -27,9 +28,9 @@ export default function SandboxPreview({ onExploreEvidence }: { onExploreEvidenc
   const boxes = response === 'quantity' ? Math.max(0, Math.round(6 * fraction)) : 6;
   const noShock = increase === 0;
 
-  return <section className={styles.section} id="what-if" aria-labelledby={`${uid}-heading`}>
+  return <section className={styles.section} id="restocking-scenario" aria-labelledby={`${uid}-heading`}>
     <div className={styles.container}>
-      <div className={styles.previewLine}><span><FlaskConical size={15} /> ERI SANDBOX / CONCEPT PREVIEW</span><span className={styles.localBadge}>LOCAL PREVIEW</span></div>
+      <div className={styles.previewLine}><span><FlaskConical size={15} /> DISTRIBUTOR DECISION EXPLORER</span><span className={styles.localBadge}>YOUR ASSUMPTIONS</span></div>
       <div className={styles.headingRow}>
         <div><h2 id={`${uid}-heading`}>What if restocking<br /><em>costs more?</em></h2><p className={styles.intro}>A decision explorer for distributors and field teams.</p></div>
         <p className={styles.purpose}>Explore a purchasing trade-off.<br />Then decide what to verify in the field.</p>
@@ -82,6 +83,7 @@ export default function SandboxPreview({ onExploreEvidence }: { onExploreEvidenc
       </div>
 
       <div className={styles.fieldQuestion}><div><span className={styles.eyebrow}>03 / TAKE IT BACK TO THE FIELD</span><h3>{noShock ? 'What baseline should we record before a follow-up?' : selected.question}</h3></div><div><span className={styles.eyebrow}>WHAT TO RECORD</span><p>{selected.measures}</p><span className={styles.fieldCaveat}>Repeated observations can document change. Causal attribution needs a separate study design.</span></div></div>
+      <button type="button" disabled={!result} className={styles.requestButton} onClick={() => onRequest({ budget: Number(budget), unitCost: Number(unitCost), increase, response })}>Request a scoped field brief ↗</button>
       <div className={styles.disclaimer}><ShieldMark /><p><strong>Illustrative scenario.</strong> Not a forecast or an estimate derived from ERI&apos;s field data. The inputs are assumptions, and the numeric results are purchasing arithmetic only.</p><span>Observe. Explore. Return. Learn.</span></div>
     </div>
   </section>;

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ArrowUpRight, ArrowRight, Search, MoveUpRight, ShieldCheck, MapPin, CalendarDays, RefreshCw } from 'lucide-react';
 import { answerFor, defaultEvidence } from '../lib/evidence';
 import type { EvidenceResponse } from '../lib/evidence-types';
-import SandboxPreview from '../components/SandboxPreview';
+import DecisionHub from '../components/DecisionHub';
 
 const initialData: EvidenceResponse = {
   evidence: defaultEvidence,
@@ -65,7 +65,7 @@ export default function Page() {
   return <main>
     <header>
       <a className="wordmark" href="https://www.useeri.com">eri<span className="dot">.</span></a>
-      <nav><a href="#coverage">Coverage</a><a href="#explore">Signals</a><a href="#analysis">Analysis</a><a href="#method">Method</a><a href="https://www.useeri.com">Main site <ArrowUpRight size={15} /></a></nav>
+      <nav><a href="#coverage">Coverage</a><a href="#explore">Signals</a><a href="#analysis">Analysis</a><a href="#what-if">Sandbox</a><a href="https://www.useeri.com">Main site <ArrowUpRight size={15} /></a></nav>
     </header>
     <section className="hero">
       <div className="eyebrow"><span className="live" /> FIELD INTELLIGENCE / GROWING ACROSS AFRICA</div>
@@ -149,7 +149,7 @@ export default function Page() {
         <div className="methodtags"><span><MapPin size={15} /> Lagos, Nigeria</span><span><CalendarDays size={15} /> Initial observations</span><span><ShieldCheck size={15} /> Aggregates only</span></div>
       </div>
     </section>
-    {process.env.NODE_ENV === 'development' ? <SandboxPreview onExploreEvidence={() => ask('Are restocking costs changing?')} /> : null}
-    <footer><div className="wordmark">eri<span className="dot">.</span></div><p>Built from the ground up. Remembering the real economy.</p><a href="https://www.useeri.com">Explore ERI <ArrowUpRight size={16} /></a></footer>
+    <DecisionHub data={data} onExploreEvidence={() => ask('Are restocking costs changing?')} />
+    <footer><div className="wordmark">eri<span className="dot">.</span></div><p>Built from the ground up. Remembering the real economy.</p><a href="/privacy">Privacy</a><a href="#notifications">Follow signals</a><a href="https://www.useeri.com">Explore ERI <ArrowUpRight size={16} /></a></footer>
   </main>;
 }
