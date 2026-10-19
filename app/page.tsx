@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { ArrowUpRight, ArrowRight, Search, MoveUpRight, ShieldCheck, MapPin, CalendarDays, RefreshCw } from 'lucide-react';
 import { answerFor, defaultEvidence } from '../lib/evidence';
 import type { EvidenceResponse } from '../lib/evidence-types';
+import SandboxPreview from '../components/SandboxPreview';
 
 const initialData: EvidenceResponse = {
   evidence: defaultEvidence,
@@ -148,6 +149,7 @@ export default function Page() {
         <div className="methodtags"><span><MapPin size={15} /> Lagos, Nigeria</span><span><CalendarDays size={15} /> Initial observations</span><span><ShieldCheck size={15} /> Aggregates only</span></div>
       </div>
     </section>
+    {process.env.NODE_ENV === 'development' ? <SandboxPreview onExploreEvidence={() => ask('Are restocking costs changing?')} /> : null}
     <footer><div className="wordmark">eri<span className="dot">.</span></div><p>Built from the ground up. Remembering the real economy.</p><a href="https://www.useeri.com">Explore ERI <ArrowUpRight size={16} /></a></footer>
   </main>;
 }
