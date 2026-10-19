@@ -23,6 +23,27 @@ const update = (table: SourceTable, row: number, key: string, value: string) => 
   table.rows[row][SOURCE_COLUMNS.findIndex(c => c.key === key)] = value;
 };
 
+test('identity review flags exclude observations without treating them as verified repeats', () => {
+  const table = fixture(14);
+  update(table, 0, 'identity', 'REVIEW: possible repeat submission');
+  update(table, 1, 'identity', 'HOLD: unresolved identity');
+  const result = analyze(table, date);
+  assert.equal(result.quality.includedRows, 12);
+  assert.equal(result.quality.identityReviewRows, 2);
+  assert.equal(result.quality.revisitRows, 0);
+  assert.equal(result.collection[0].observations, 12);
+});
+
+test('a review flag on any identical retry holds the observation', () => {
+  const table = fixture();
+  table.rows.push([...table.rows[0]]);
+  update(table, 12, 'identity', 'REVIEW: possible repeat submission');
+  const result = analyze(table, date);
+  assert.equal(result.quality.includedRows, 11);
+  assert.equal(result.quality.identityReviewRows, 1);
+  assert.equal(result.quality.duplicateRows, 1);
+});
+
 test('analysis reconciles every field to eligible observation count', () => {
   const result = analyze(fixture(), date);
   assert.equal(result.quality.includedRows, 12);
@@ -131,18 +152,20 @@ test('public projection never includes identifiers or unrecognised free text', (
 });
 
 test('source snapshot uses reviewed denominators and the actual observation period', () => {
-  assert.equal(snapshot.quality.includedRows, 114);
+  assert.equal(snapshot.quality.includedRows, 87);
   assert.equal(snapshot.quality.sourceRows, 115);
   assert.equal(snapshot.quality.invalidRows, 1);
-  assert.equal(snapshot.quality.provisionalIdentityRows, 114);
+  assert.equal(snapshot.quality.provisionalIdentityRows, 87);
+  assert.equal(snapshot.quality.identityReviewRows, 27);
   assert.equal(snapshot.period.end, '2026-10-15');
   const metric = (id: string) => snapshot.signals.find(s => s.id === id)!.metrics[0].value;
-  assert.equal(metric('payments'), '69 / 113');
-  assert.equal(metric('records'), '56 / 111');
-  assert.equal(metric('business'), '89 / 113');
-  assert.equal(metric('restock'), '84 / 103');
-  assert.equal(metric('credit'), '30 / 114');
-  assert.equal(metric('remote'), '56 / 114');
+  assert.equal(metric('payments'), '60 / 86');
+  assert.equal(metric('records'), '42 / 84');
+  assert.equal(metric('business'), '64 / 86');
+  assert.equal(metric('restock'), '59 / 76');
+  assert.equal(metric('credit'), '25 / 87');
+  assert.equal(metric('remote'), '48 / 87');
+  assert.equal(snapshot.collection.reduce((sum, day) => sum + day.observations, 0), 87);
 });
 
 test('unconfigured integration is explicitly a snapshot and never reads a source', async () => {

@@ -130,7 +130,7 @@ export default function Page() {
       </ol>
       <details className="quality-details">
         <summary>Inspect data quality and denominators</summary>
-        <p>{quality.invalidRows} invalid or misaligned rows; {quality.duplicateRows} duplicate or conflicting copies; {quality.pilotRows} pilot rows; {quality.revisitRows} revisit rows held apart. Blank rows are ignored.</p>
+        <p>{quality.invalidRows} invalid or misaligned rows; {quality.identityReviewRows} rows awaiting identity review; {quality.duplicateRows} duplicate or conflicting copies; {quality.pilotRows} pilot rows; {quality.revisitRows} revisit rows held apart. Blank rows are ignored.</p>
         <div className="quality-table-wrap"><table>
           <caption>Response classification within the {quality.includedRows} eligible observations</caption>
           <thead><tr><th scope="col">Signal</th><th scope="col">Valid</th><th scope="col">Missing</th><th scope="col">Unknown</th><th scope="col">Contradictory</th><th scope="col">Not applicable</th></tr></thead>

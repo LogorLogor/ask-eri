@@ -62,9 +62,16 @@ export function publishEvidence(analysis: Analysis): Evidence {
     context: 'Geography is the configured scope of this source; the form has no row-level market field. The historical 10-record pilot is not added to this source. No verified longitudinal comparison is published.',
     limitations: limitation,
   });
+  const observedCounts: Record<string, number> = {
+    payments: count('payments', 'transfer'), records: count('records', 'none'),
+    business: better, restock: higher, credit: count('credit', 'yes'), remote: orders,
+  };
+  for (const signal of signals) {
+    if (Object.hasOwn(observedCounts, signal.id)) signal.observed = { count: observedCounts[signal.id], denominator: signal.denominator };
+  }
   const fields = Object.fromEntries(Object.entries(d).map(([key, { valid, missing, unknown, ambiguous, notApplicable }]) => [key, { valid, missing, unknown, ambiguous, notApplicable }])) as Record<string, FieldQuality>;
   return {
-    version: 'analysis-v1', analyzedAt: analysis.analyzedAt,
+    version: 'analysis-v2', analyzedAt: analysis.analyzedAt, collection: analysis.collection,
     period: { ...analysis.period, label }, quality: q, fields, signals,
     coverage: [{ ...SOURCE_COHORT, publishedRecords: q.includedRows, period: label }],
   };

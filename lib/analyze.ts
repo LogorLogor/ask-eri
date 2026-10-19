@@ -35,7 +35,7 @@ export function analyze(table: SourceTable, now = new Date()): Analysis {
   }
   const quality: Analysis['quality'] = {
     sourceRows: 0, includedRows: 0, heldRows: 0, duplicateRows: 0, invalidRows: 0,
-    pilotRows: 0, revisitRows: 0, provisionalIdentityRows: 0,
+    pilotRows: 0, revisitRows: 0, provisionalIdentityRows: 0, identityReviewRows: 0,
   };
   const distributions: Analysis['distributions'] = {
     payments: empty(), records: empty(), business: empty(), restock: empty(), credit: empty(), remote: empty(),
@@ -60,6 +60,9 @@ export function analyze(table: SourceTable, now = new Date()): Analysis {
     if (signatures.size > 1) { quality.duplicateRows += group.length; continue; }
     quality.duplicateRows += group.length - 1;
     const row = group[0];
+    if (group.some(copy => /^(review|reject|exclude|hold)\b/.test(clean(copy.identity)))) {
+      quality.identityReviewRows++; continue;
+    }
     const type = clean(row.type);
     if (/\bpilot\b/.test(type)) { quality.pilotRows++; continue; }
     if (/\b(revisit|follow.up|return visit)\b/.test(type)) { quality.revisitRows++; continue; }
@@ -97,5 +100,7 @@ export function analyze(table: SourceTable, now = new Date()): Analysis {
     }
   }
   dates.sort();
-  return { analyzedAt: now.toISOString(), period: { start: dates[0], end: dates.at(-1)! }, quality, distributions };
+  const byDate = new Map<string, number>();
+  for (const date of dates) byDate.set(date, (byDate.get(date) ?? 0) + 1);
+  return { analyzedAt: now.toISOString(), period: { start: dates[0], end: dates.at(-1)! }, quality, distributions, collection: Array.from(byDate, ([date, observations]) => ({ date, observations })) };
 }

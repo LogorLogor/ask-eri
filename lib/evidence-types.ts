@@ -9,6 +9,7 @@ export type Signal = {
   limitations: string;
   denominator: number;
   excludedResponses: number;
+  observed?: { count: number; denominator: number };
 };
 
 export type FieldQuality = {
@@ -32,13 +33,16 @@ export type Analysis = {
     pilotRows: number;
     revisitRows: number;
     provisionalIdentityRows: number;
+    identityReviewRows: number;
   };
   distributions: Record<'payments' | 'records' | 'business' | 'restock' | 'credit' | 'remote', Distribution>;
+  collection: { date: string; observations: number }[];
 };
 
 export type Evidence = {
   version: string;
   analyzedAt: string;
+  collection: { date: string; observations: number }[];
   period: { start: string; end: string; label: string };
   quality: Analysis['quality'];
   fields: Record<string, FieldQuality>;
