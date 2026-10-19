@@ -1,21 +1,31 @@
 # Ask ERI V0
 
-Standalone Next.js 15 application styled to complement useeri.com. Public curated evidence only; no access to merchant-level raw data.
+Standalone Next.js 15 application styled to complement useeri.com. Public answers contain aggregate evidence only. An optional server-side, read-only Google Sheets connection feeds an analysis stage before results are published.
 
 ## Local run
-`npm install && npm run dev`
+Use Node.js 24 (the tested local runtime), then `npm ci && npm run dev`.
+
+Without server credentials, the app displays the committed validated snapshot. It never labels that snapshot as a live feed. To enable automatic sheet reads, follow [Live evidence and analysis](docs/live-evidence.md) and configure the two server-only variables in `.env.example`.
+
+`npm test` runs the routing, analysis, publication and refresh regression tests. `npm run build` checks the production build without needing Google credentials.
 
 ## Vercel deployment
 Import this folder into a Vercel project (framework Next.js). For a separate project, attach `ask.useeri.com` after verifying the domain is available in the owner's Vercel team. Alternatively, integrate the `app` and `lib` code into the existing website under `/ask` (move the page to `app/ask/page.tsx`, scope styles appropriately, and merge metadata).
 
 ## Editorial updates
-Evidence is defined in `lib/evidence.ts`. Counts are frozen to the 89 production observations of Oct 7–11, 2026. Update only after QA approval; retain observation dates, denominators and limitations. Original 10 pilot records are described separately. No live source sheet or private merchant records are used by this application.
+The current aggregate snapshot is `data/evidence-snapshot.json`, analysed from the supplied source on 19 October 2026. It includes 114 eligible initial observations dated 7–15 October 2026; one misaligned submission is held out. Identities are provisional: these are not verified unique business counts. The historical 10-record pilot is not added to the cohort.
+
+`lib/analyze.ts` validates schema, dates, duplicate submissions, observation type, response categories and denominator reconciliation. `lib/publish-evidence.ts` extracts signals through fixed aggregate templates; unrecognised and contradictory answers are excluded from each signal's denominator. Signals with fewer than 10 classifiable responses are withheld. Published figures must come from this analysis; retain dates, denominators and limitations. Review source/schema changes before changing the rules.
+
+`/api/evidence` reads only allowlisted source columns on the server through a read-only service account and returns aggregate results. The open page refreshes every minute. If access or validation fails, it clearly shows the last validated analysis; a cold instance falls back to the committed snapshot. Names, contact details, photographs and open notes are not requested or sent to visitors. See the analysis guide for exact field rules, denominators, credential setup and refresh limitations.
 
 ## V0 scope
-- Natural-language keyword matching over six approved answers
+- Conservative natural-language keyword matching over six supported signal templates
 - Evidence counts, context and limitations
 - Honest refusal for out-of-scope questions
 - Responsive UI with ERI's burnt-orange/serif visual language
+- An analysis and data-quality stage before publication
+- Optional private Google Sheets reads and automatic aggregate refresh
 
 ## Before public launch
 - Verify each metric against signed-off dataset
@@ -29,4 +39,4 @@ No LLM API key is needed. No visitor questions are persisted by this V0.
 
 
 ## Multi-location readiness
-`lib/evidence.ts` contains a `coverage` registry. Add a location only after its approved aggregate findings are available. All public answers must be scoped to a source cohort; do not reuse Lagos results for a new city. Current V0 contains one active market cluster and no cross-market comparisons.
+`lib/source-schema.ts` defines the source cohort and allowlisted fields. The current form has no per-row market field; geography is configured as Yaba–Sabo–Tejuosho, Lagos. Add a location only after its geographic mapping and aggregate findings are reviewed. All public answers must be scoped to a source cohort; do not reuse Lagos results for a new city. The app contains one active market cluster and no cross-market comparisons.
