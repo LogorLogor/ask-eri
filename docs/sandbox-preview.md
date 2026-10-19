@@ -1,15 +1,12 @@
-# Sandbox placement review
+# Sandbox placement and purchasing model
 
-This is a local concept for distributors and their field teams: explore an order-size or purchasing-budget trade-off, then identify what ERI should verify on a return visit.
+The original local-only concept was extended into the three-audience decision hub on 19 October 2026. This file describes the retained distributor model; `outpost-operations.md` describes the current request service and activation gates.
 
-- Open the development site at `http://127.0.0.1:3000/#what-if`.
-- The section sits after Method and before the footer.
-- `app/page.tsx` mounts it only when `NODE_ENV` is `development`. Production builds omit the section. Removing that gate is a separate publication decision.
-- Nothing reads or changes the evidence engine. The evidence button uses the existing supported restocking question.
-- All stalls are fictional. No merchant records, response probabilities, demand elasticities or forecasts are used.
-- Budget and unit cost are scenario inputs. Unit costs are rounded to kobo; quantities are rounded down to whole units. Cash needed for the original order accounts for any unused starting budget. Delivery fees and other costs are excluded.
-- The three selected responses change the trade-off and field question; they are choices supplied by the visitor, not estimated behaviour.
-- At a zero cost increase, the preview explains the baseline without inventing a shock response.
-- The calculations have regression coverage for zero and maximum shocks, fractional currency, unused budget, insufficient budget and invalid inputs.
-
-Review the placement, wording and interaction locally before deciding whether to publish it. This review adds no dependencies, backend, persistence or production activation.
+- Open `http://127.0.0.1:3000/#what-if`. The decision hub sits after Method, followed by the selected explorer, longitudinal watch, field-brief enquiry and notifications.
+- The hub is included in production builds. Requested email remains unavailable until configured; development uses an explicitly labelled local outbox.
+- Evidence cards use the same published analysis and source-status information as Ask ERI. The evidence button opens the supported restocking answer.
+- All stalls are fictional. No individual merchant records, response probabilities, demand elasticities or forecasts are represented.
+- Budget and unit cost are visitor assumptions. Unit costs are rounded to kobo; quantities are rounded down to whole units. Extra cash for the original order accounts for unused starting budget. Delivery fees and other costs are excluded.
+- The three response choices change the trade-off and field question; they are visitor choices, not estimated behavior. A zero cost increase explains the unchanged purchasing baseline.
+- Confirmed enquiries capture the scenario and published evidence context on the server. Fieldwork requires an agreed scope, quote, timing and consent before completion can be emailed.
+- Regression coverage includes zero and maximum shocks, fractional currency, unused budget, insufficient budget and invalid inputs.
