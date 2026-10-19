@@ -1,14 +1,10 @@
-export type Signal={id:string;question:string;title:string;answer:string;metrics:{value:string;label:string}[];context:string;limitations:string;keywords:string[]};
-export const evidenceVersion='Yaba initial observations · 89 production records · 7–11 October 2026';
-export const signals:Signal[]=[
-{id:'payments',question:'How are merchants receiving payments in Yaba?',title:'Transfers lead as the primary payment method',answer:'Among 89 initial merchant observations, 51 merchants said transfers account for the largest share of customer payments, compared with 36 who named cash and two who named POS/card.',metrics:[{value:'51 / 89',label:'Transfer is main method'},{value:'36 / 89',label:'Cash is main method'}],context:'These figures describe the primary method reported by each merchant, not transaction volumes across Yaba.',limitations:'Convenience field cohort; not representative of Yaba or Nigeria. Self-reported payment shares were not independently audited.',keywords:['payment','transfer','cash','pos','digital','bank']},
-{id:'records',question:'Do merchants keep track of their sales?',title:'Digital payments do not guarantee business records',answer:'In the same cohort, 56 of 89 merchants reported keeping no sales records. Separately, 51 of 89 identified transfers as their main payment method.',metrics:[{value:'56 / 89',label:'Report no sales records'},{value:'51 / 89',label:'Mainly receive transfers'}],context:'These are cohort-level measures. The two counts alone do not establish how many individual merchants fall into both categories.',limitations:'Recordkeeping was self-reported. Mixed or ambiguous recordkeeping responses require careful coding.',keywords:['record','sales','bookkeeping','digital','accounting','visibility']},
-{id:'business',question:'Are trading conditions improving?',title:'Most respondents described their business as better than three months earlier',answer:'Of 89 respondents, 37 described business as much better, 42 as a little better and 10 as about the same. None selected worse.',metrics:[{value:'79 / 89',label:'Reported better conditions'},{value:'10 / 89',label:'Reported no change'}],context:'This is a baseline recollection, not a longitudinal change measured by ERI.',limitations:'The unanimous absence of negative responses warrants investigation for recruitment, question wording and interviewer effects. Do not extrapolate to the local economy.',keywords:['business','better','worse','growth','conditions','sales','trend']},
-{id:'restock',question:'Are restocking costs changing?',title:'Higher restocking expenditure is commonly reported',answer:'Among the 79 merchants with a coded restocking-cost response, 44 reported spending a little more and 25 much more than three months earlier; 10 reported about the same.',metrics:[{value:'69 / 79',label:'Reported higher restocking costs'},{value:'10 / 89',label:'No coded response'}],context:'Higher total restocking expenditure can reflect prices, quantities or product mix.',limitations:'These observations cannot establish product-price inflation or declining margins. The denominator excludes 10 blank responses.',keywords:['restock','stock','cost','inflation','supplier','inventory','prices']},
-{id:'credit',question:'How common is business borrowing?',title:'About one-quarter reported borrowing or goods on credit',answer:'Of 89 merchants, 21 reported borrowing money or receiving goods on credit for business operations in the previous 12 months; 68 reported neither.',metrics:[{value:'21 / 89',label:'Reported credit or borrowing'},{value:'68 / 89',label:'Reported neither'}],context:'The question includes both financial borrowing and goods supplied on credit.',limitations:'This does not measure credit demand, creditworthiness or unmet lending needs.',keywords:['credit','loan','borrowing','capital','finance']},
-{id:'remote',question:'Do businesses accept remote orders?',title:'Remote ordering exists but is not universal',answer:'Of 89 merchants, 9 reported accepting remote orders regularly, 29 sometimes, and 51 not at all.',metrics:[{value:'38 / 89',label:'Regular or occasional remote orders'},{value:'51 / 89',label:'No remote orders'}],context:'Remote orders can include phone, messaging and other channels.',limitations:'This is not a measure of online revenue or e-commerce transaction value.',keywords:['remote','online','whatsapp','delivery','orders','digital']},
-{id:'coverage',question:'Where does ERI have evidence today?',title:'Current public evidence covers one Lagos market cluster',answer:'This initial cohort contains 89 production observations from the Yaba–Sabo–Tejuosho area, collected 7–11 October 2026. The original pilot added 10 separate initial observations on 6 October, pending canonical master reconciliation.',metrics:[{value:'89',label:'Production baseline observations'},{value:'10',label:'Original pilot observations'}],context:'The working total is 99 initial records, not 99 verified repeat relationships.',limitations:'No second-visit longitudinal findings are published yet. No evidence for other Nigerian cities is implied.',keywords:['where','coverage','location','yaba','lagos','kano','abuja','merchant','sample','study']}
-];
+import snapshot from '../data/evidence-snapshot.json' with { type: 'json' };
+import type { Evidence, Signal } from './evidence-types.ts';
+export type { Signal } from './evidence-types.ts';
+export const defaultEvidence = snapshot as Evidence;
+export const signals = defaultEvidence.signals;
+export const coverage = defaultEvidence.coverage;
+export const evidenceVersion = defaultEvidence.period.label;
 // Conservative routing: only answer questions clearly covered by an approved signal.
 // Never use substring matches (e.g. "pos" in "possible").
 const normalize = (q: string) => q.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -24,14 +20,15 @@ const routes: { id: string; terms: string[] }[] = [
 ];
 const unsupportedPlaces = ['kano', 'abuja', 'ibadan', 'port harcourt', 'enugu', 'kaduna', 'benin', 'owerri', 'accra', 'ghana', 'kenya', 'nairobi', 'africa'];
 const unsupportedClaims = ['forecast', 'predict', 'prediction', 'profit', 'profits', 'revenue', 'turnover', 'margin', 'margins', 'market share', 'national', 'nationwide', 'representative', 'caused', 'causes', 'correlation', 'cross tab', 'crosstab', 'by gender', 'by age', 'year on year', 'longitudinal'];
-export function answer(q: string) {
+export function answer(q: string, availableSignals: Signal[] = signals) {
   const text = normalize(q);
   if (!text || has(text, unsupportedPlaces) || has(text, unsupportedClaims)) return null;
   const matches = routes.filter(r => has(text, r.terms));
   // Ambiguous multi-topic questions need a properly reviewed cross-tabulation.
   if (matches.length !== 1) return null;
-  return signals.find(s => s.id === matches[0].id) || null;
+  return availableSignals.find(s => s.id === matches[0].id) || null;
 }
 
-export const coverage=[{id:'yaba-lagos',country:'Nigeria',region:'Lagos',city:'Lagos',cluster:'Yaba · Sabo · Tejuosho',status:'baseline',publishedRecords:89,period:'7–11 October 2026'}] as const;
-export function answerFor(q:string,location:string){return (location==='all'||coverage.some(c=>c.id===location))?answer(q):null}
+export function answerFor(q: string, location: string, evidence: Evidence = defaultEvidence) {
+  return (location === 'all' || evidence.coverage.some(c => c.id === location)) ? answer(q, evidence.signals) : null;
+}
