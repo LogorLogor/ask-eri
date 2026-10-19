@@ -13,13 +13,13 @@ Without server credentials, the app displays the committed validated snapshot. I
 Import this folder into a Vercel project (framework Next.js). For a separate project, attach `ask.useeri.com` after verifying the domain is available in the owner's Vercel team. Alternatively, integrate the `app` and `lib` code into the existing website under `/ask` (move the page to `app/ask/page.tsx`, scope styles appropriately, and merge metadata).
 
 ## Editorial updates
-The current aggregate snapshot is `data/evidence-snapshot.json`, analysed from the supplied source on 19 October 2026. It includes 114 eligible initial observations dated 7–15 October 2026; one misaligned submission is held out. Identities are provisional: these are not verified unique business counts. The historical 10-record pilot is not added to the cohort.
+The current aggregate snapshot is `data/evidence-snapshot.json`, analysed from the supplied source on 19 October 2026. It includes 87 eligible initial observations dated 7–15 October 2026; 27 identity-review rows and one misaligned row are held out. See `docs/evidence-review-2026-10-19.md` for the QA revision. Identities are provisional: these are not verified unique business counts. The historical 10-record pilot is not added to the cohort.
 
 `lib/analyze.ts` validates schema, dates, duplicate submissions, observation type, response categories and denominator reconciliation. `lib/publish-evidence.ts` extracts signals through fixed aggregate templates; unrecognised and contradictory answers are excluded from each signal's denominator. Signals with fewer than 10 classifiable responses are withheld. Published figures must come from this analysis; retain dates, denominators and limitations. Review source/schema changes before changing the rules.
 
 `/api/evidence` reads only allowlisted source columns on the server through a read-only service account and returns aggregate results. The open page refreshes every minute. If access or validation fails, it clearly shows the last validated analysis; a cold instance falls back to the committed snapshot. Names, contact details, photographs and open notes are not requested or sent to visitors. See the analysis guide for exact field rules, denominators, credential setup and refresh limitations.
 
-## V0 scope
+## Product scope
 - Conservative natural-language keyword matching over six supported signal templates
 - Evidence counts, context and limitations
 - Honest refusal for out-of-scope questions
@@ -32,11 +32,14 @@ The current aggregate snapshot is `data/evidence-snapshot.json`, analysed from t
 - Obtain editorial/legal approval for published findings
 - Add privacy policy and analytics with consent as appropriate
 - Confirm accessible brand treatment and QA across browsers
-- Integrate question-demand capture only after privacy and rate limiting are designed
+- Activate requested email only after provider/privacy review and deployed delivery tests
 - Set up CI and source control in the owner's actual Vercel team
 
-No LLM API key is needed. No visitor questions are persisted by this V0.
+No LLM API key is needed. General Ask ERI questions are not persisted. Explicit field-brief enquiries retain the submitted contact details, question and scenario under the stated privacy and retention terms.
 
 
 ## Multi-location readiness
 `lib/source-schema.ts` defines the source cohort and allowlisted fields. The current form has no per-row market field; geography is configured as Yaba–Sabo–Tejuosho, Lagos. Add a location only after its geographic mapping and aggregate findings are reviewed. All public answers must be scoped to a source cohort; do not reuse Lagos results for a new city. The app contains one active market cluster and no cross-market comparisons.
+
+## Decision sandbox and Outpost 01
+Three evidence-informed planning explorers, quote-first field-brief enquiries, confirmed topic notifications and a longitudinal watch are included. Production email stays unavailable until configured; development uses a labelled local outbox. No forecast or unobserved trend is invented. See [operations and activation](docs/outpost-operations.md) and [product critique and next priorities](docs/product-critique.md).
