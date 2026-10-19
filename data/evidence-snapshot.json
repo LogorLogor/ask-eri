@@ -1,0 +1,215 @@
+{
+  "version": "analysis-v1",
+  "analyzedAt": "2026-10-19T16:44:17.763Z",
+  "period": {
+    "start": "2026-10-07",
+    "end": "2026-10-15",
+    "label": "7 October 2026 – 15 October 2026"
+  },
+  "quality": {
+    "sourceRows": 115,
+    "includedRows": 114,
+    "heldRows": 1,
+    "duplicateRows": 0,
+    "invalidRows": 1,
+    "pilotRows": 0,
+    "revisitRows": 0,
+    "provisionalIdentityRows": 114
+  },
+  "fields": {
+    "payments": {
+      "valid": 113,
+      "missing": 0,
+      "unknown": 1,
+      "ambiguous": 0,
+      "notApplicable": 0
+    },
+    "records": {
+      "valid": 111,
+      "missing": 0,
+      "unknown": 2,
+      "ambiguous": 1,
+      "notApplicable": 0
+    },
+    "business": {
+      "valid": 113,
+      "missing": 0,
+      "unknown": 1,
+      "ambiguous": 0,
+      "notApplicable": 0
+    },
+    "restock": {
+      "valid": 103,
+      "missing": 0,
+      "unknown": 1,
+      "ambiguous": 0,
+      "notApplicable": 10
+    },
+    "credit": {
+      "valid": 114,
+      "missing": 0,
+      "unknown": 0,
+      "ambiguous": 0,
+      "notApplicable": 0
+    },
+    "remote": {
+      "valid": 114,
+      "missing": 0,
+      "unknown": 0,
+      "ambiguous": 0,
+      "notApplicable": 0
+    }
+  },
+  "signals": [
+    {
+      "id": "payments",
+      "question": "How are merchants receiving payments in Yaba?",
+      "title": "Reported primary payment methods",
+      "answer": "Of 113 classifiable responses, 69 named transfers, 39 cash and 5 POS/card as the method receiving the largest share of customer payments.",
+      "metrics": [
+        {
+          "value": "69 / 113",
+          "label": "Transfer is primary"
+        },
+        {
+          "value": "39 / 113",
+          "label": "Cash is primary"
+        }
+      ],
+      "denominator": 113,
+      "excludedResponses": 1,
+      "context": "113 classifiable responses from 114 eligible initial observations. 0 missing, 1 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. These are reported primary methods, not transaction volumes or market shares."
+    },
+    {
+      "id": "records",
+      "question": "Do merchants keep track of their sales records?",
+      "title": "Reported recordkeeping practices",
+      "answer": "56 of 111 classifiable responses selected “No records”. 55 selected another recognised response. Mixed “No records” selections and unrecognised options are held out.",
+      "metrics": [
+        {
+          "value": "56 / 111",
+          "label": "Selected no records"
+        },
+        {
+          "value": "55 / 111",
+          "label": "Other recognised response"
+        }
+      ],
+      "denominator": 111,
+      "excludedResponses": 3,
+      "context": "111 classifiable responses from 114 eligible initial observations. 0 missing, 2 unknown or unrecognised, 1 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. The combined “Memory Notebook/paper” option cannot distinguish memory from written records. Payment and recordkeeping totals do not establish individual overlap."
+    },
+    {
+      "id": "business",
+      "question": "Are trading conditions improving?",
+      "title": "Recalled business conditions over three months",
+      "answer": "Of 113 classifiable responses, 89 described business as better than about three months earlier, 16 about the same and 8 worse.",
+      "metrics": [
+        {
+          "value": "89 / 113",
+          "label": "Reported better conditions"
+        },
+        {
+          "value": "8 / 113",
+          "label": "Reported worse conditions"
+        }
+      ],
+      "denominator": 113,
+      "excludedResponses": 1,
+      "context": "113 classifiable responses from 114 eligible initial observations. 0 missing, 1 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. Retrospective recollection at an initial visit is not measured longitudinal change. “Too new to say” is excluded."
+    },
+    {
+      "id": "restock",
+      "question": "Are restocking costs changing?",
+      "title": "Reported restocking expenditure",
+      "answer": "Among 103 classifiable responses from businesses that restock, 84 reported higher expenditure, 18 about the same and 1 lower than about three months earlier.",
+      "metrics": [
+        {
+          "value": "84 / 103",
+          "label": "Reported higher expenditure"
+        },
+        {
+          "value": "10",
+          "label": "Do not restock; excluded"
+        }
+      ],
+      "denominator": 103,
+      "excludedResponses": 11,
+      "context": "103 classifiable responses from 114 eligible initial observations. 0 missing, 1 unknown or unrecognised, 0 contradictory, 10 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. Expenditure can change with prices, quantities or product mix. This does not measure price inflation or profit margins."
+    },
+    {
+      "id": "credit",
+      "question": "How common is business borrowing?",
+      "title": "Reported borrowing or supplier credit",
+      "answer": "30 of 114 classifiable responses reported borrowing money or receiving goods on credit for business operations during the previous 12 months; 84 reported neither.",
+      "metrics": [
+        {
+          "value": "30 / 114",
+          "label": "Reported borrowing or goods on credit"
+        },
+        {
+          "value": "84 / 114",
+          "label": "Reported neither"
+        }
+      ],
+      "denominator": 114,
+      "excludedResponses": 0,
+      "context": "114 classifiable responses from 114 eligible initial observations. 0 missing, 0 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. The combined question does not distinguish loans from supplier credit or measure unmet demand."
+    },
+    {
+      "id": "remote",
+      "question": "Do businesses accept remote orders?",
+      "title": "Reported remote ordering",
+      "answer": "Of 114 classifiable responses, 14 accepted remote orders regularly, 42 sometimes and 58 not at all.",
+      "metrics": [
+        {
+          "value": "56 / 114",
+          "label": "Regular or occasional orders"
+        },
+        {
+          "value": "58 / 114",
+          "label": "No remote orders"
+        }
+      ],
+      "denominator": 114,
+      "excludedResponses": 0,
+      "context": "114 classifiable responses from 114 eligible initial observations. 0 missing, 0 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. Phone and messaging orders are included. This does not measure online sales value."
+    },
+    {
+      "id": "coverage",
+      "question": "Where does ERI have evidence today?",
+      "title": "Current published cohort",
+      "answer": "114 eligible initial observations dated 7 October 2026 – 15 October 2026 are included in this analysis of the configured Yaba–Sabo–Tejuosho cohort in Lagos. 1 source rows are held out of the published cohort.",
+      "metrics": [
+        {
+          "value": "114",
+          "label": "Eligible initial observations"
+        },
+        {
+          "value": "1",
+          "label": "Source rows held out"
+        }
+      ],
+      "denominator": 114,
+      "excludedResponses": 1,
+      "context": "Geography is the configured scope of this source; the form has no row-level market field. The historical 10-record pilot is not added to this source. No verified longitudinal comparison is published.",
+      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims."
+    }
+  ],
+  "coverage": [
+    {
+      "id": "yaba-lagos",
+      "country": "Nigeria",
+      "region": "Lagos",
+      "cluster": "Yaba · Sabo · Tejuosho",
+      "publishedRecords": 114,
+      "period": "7 October 2026 – 15 October 2026"
+    }
+  ]
+}
