@@ -12,6 +12,18 @@ const validFact = (signal: Signal | undefined, evidence: Evidence) => {
   if (!signal?.observed || signal.denominator !== signal.observed.denominator || evidence.fields[signal.id]?.valid !== signal.denominator || !Number.isInteger(signal.observed.count) || !Number.isInteger(signal.denominator) || signal.denominator < 10 || signal.observed.count < 0 || signal.observed.count > signal.denominator) return null;
   return { id: signal.id, question: signal.question, title: signal.title, count: signal.observed.count, denominator: signal.denominator, answer: signal.answer, context: signal.context, limitations: signal.limitations };
 };
+export function buildEvidenceHooks(data: EvidenceResponse) {
+  if (!buildMarketBrief(data)) return [];
+  const examples = [
+    { id: 'restock', label: 'Restocking', audience: 'distributors' as const, buyer: 'For distribution & procurement teams', headline: 'reported higher restocking expenditure', relevance: 'Before your next replenishment pilot, find out what is changing the purchasing decision.', unknown: 'Unit prices, quantities and product mix are not separated by this finding.', question: 'Which product-level costs, order quantities and replenishment constraints should a distribution pilot investigate?' },
+    { id: 'records', label: 'Recordkeeping', audience: 'finance' as const, buyer: 'For financial-institution pilot teams', headline: 'reported keeping no records', relevance: 'Scope a voluntary recordkeeping-support pilot around the practices businesses actually use.', unknown: 'This does not establish creditworthiness, demand for finance or who should receive support.', question: 'What recordkeeping practices and support needs should a consented business-support pilot verify?' },
+    { id: 'remote', label: 'Remote orders', audience: 'research' as const, buyer: 'For research & development partners', headline: 'reported regular or occasional remote orders', relevance: 'Investigate how phone and message orders work before designing an ordering intervention.', unknown: 'Order value, channel performance and willingness to adopt a new tool remain unmeasured.', question: 'How are remote ordering channels used, and what should a consented follow-up study measure?' },
+  ];
+  return examples.flatMap(example => {
+    const fact = validFact(data.evidence.signals.find(signal => signal.id === example.id), data.evidence);
+    return fact ? [{ ...example, fact }] : [];
+  });
+}
 export function buildMarketBrief(data: EvidenceResponse) {
   const { evidence } = data;
   const coverage = evidence.coverage.find(place => place.id === 'yaba-lagos');

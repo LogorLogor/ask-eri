@@ -28,7 +28,7 @@ export default function Page() {
   const [location, setLocation] = useState('all');
   const [investigation,setInvestigation] = useState<(Investigation & {key:number}) | null>(null);
   function investigate(request:Investigation) { setInvestigation({...request,key:Date.now()}); }
-  useEffect(() => { const question=new URLSearchParams(window.location.search).get('question'); if(question) { setInvestigation({question:question.slice(0,1500),audience:'distributors',edition:new URLSearchParams(window.location.search).get('edition') || undefined,key:Date.now()}); } }, []);
+  useEffect(() => { const question=new URLSearchParams(window.location.search).get('question'); if(question) { setInvestigation({question:question.slice(0,1500),audience: (['distributors','finance','research'].includes(new URLSearchParams(window.location.search).get('audience') || '') ? new URLSearchParams(window.location.search).get('audience') : 'distributors') as Investigation['audience'],edition:new URLSearchParams(window.location.search).get('edition') || undefined,key:Date.now()}); } }, []);
   const { evidence, connection } = data;
   const { signals, coverage, quality, period } = evidence;
   // Open answers follow updated evidence; withheld signals cannot leave a stale answer.
@@ -69,14 +69,14 @@ export default function Page() {
   return <main>
     <header>
       <a className="wordmark" href="https://www.useeri.com">eri<span className="dot">.</span></a>
-      <nav><a href="#market-brief">Market brief</a><a href="#ask">Questions</a><a href="#what-if">Sandbox</a><a href="#notifications">Updates</a><a href="/interviews">Interview kit</a></nav>
+      <nav><a href="#market-brief">Market brief</a><a href="#ask">Questions</a><a href="#what-if">Sandbox</a><a href="#notifications">Updates</a></nav>
     </header>
     <section className="hero">
       <div className="eyebrow"><span className="live" /> FIELD INTELLIGENCE / STARTING WITH THE LAGOS COHORT</div>
-      <h1>Ask the<br /><em>real economy.</em></h1>
-      <p className="intro">Understand how businesses in this market operate. Start with the evidence, identify what your decision still needs, and scope a focused return to the field.</p>
-      <div className="hero-actions"><a href="#market-brief">Read the market brief ↓</a><a href="#sample-deliverable">See an example deliverable ↓</a></div>
-      <div className={`evidence-status status-${connection.mode}`} aria-live="polite">
+      <h1>Ask the <em>real economy.</em></h1>
+      <p className="intro">Evidence from Lagos markets. Explore what we know and what your next decision still needs.</p>
+
+      <details className="hero-source"><summary>Source & market coverage</summary><div className={`evidence-status status-${connection.mode}`} aria-live="polite">
         <div className="status-heading"><RefreshCw size={15} /><strong>{connection.mode === 'live' ? 'Source connected' : connection.mode === 'stale' ? 'Last validated analysis' : 'Validated snapshot'}</strong></div>
         <p>{connection.message}</p>
         <span>Observations: {period.label}</span><span>Analysed: {timestamp(evidence.analyzedAt)} WAT</span>
@@ -89,7 +89,7 @@ export default function Page() {
           {coverage.map(c => <option key={c.id} value={c.id}>{c.cluster}, {c.region}, {c.country}</option>)}
         </select>
         <span>{coverage.length} published market cluster{coverage.length === 1 ? '' : 's'}</span>
-      </div>
+      </div></details>
     </section>
     <MarketBrief data={data} onInvestigate={investigate} onInspect={ask} />
     <section className="supported" id="ask" aria-labelledby="supported-title">

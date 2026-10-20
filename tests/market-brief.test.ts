@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {buildMarketBrief,matchingEdition,editionById,briefCitation,editions} from '../lib/market-brief.ts';
+import {buildMarketBrief,buildEvidenceHooks,matchingEdition,editionById,briefCitation,editions} from '../lib/market-brief.ts';
 import {buildInvestigation} from '../lib/decision-model.ts';
 import {requestContext} from '../lib/request-context.ts';
 import {blankInterviews,parseInterviews,canRetainInterviews} from '../lib/interview-kit.ts';
@@ -36,4 +36,12 @@ test('interview notes are three private slots with strict format and explicit re
 });
 test('local operator shortcut is unavailable in production, live mode or non-loopback hosts',()=>{
  allowLocalOperations('development','local','127.0.0.1:3000','http://127.0.0.1:3000');assert.throws(()=>allowLocalOperations('production','local','127.0.0.1:3000','http://127.0.0.1:3000'));assert.throws(()=>allowLocalOperations('development','live','127.0.0.1:3000','http://127.0.0.1:3000'));assert.throws(()=>allowLocalOperations('development','local','foreign.test','http://127.0.0.1:3000'));assert.throws(()=>allowLocalOperations('development','local','site.test','https://site.test'));
+});
+
+
+test('buyer hooks pair three reconciled facts with distinct questions and omit withheld facts',()=>{
+ const hooks=buildEvidenceHooks(data());assert.deepEqual(hooks.map(h=>[h.id,h.fact.count,h.fact.denominator,h.audience]),[['restock',85,104,'distributors'],['records',56,112,'finance'],['remote',56,115,'research']]);
+ const changed=structuredClone(evidence);changed.signals=changed.signals.filter(s=>s.id!=='records');assert.deepEqual(buildEvidenceHooks(data(changed)).map(h=>h.id),['restock','remote']);
+ changed.signals.find(s=>s.id==='remote')!.observed!.count=10;assert.equal(buildEvidenceHooks(data(changed))[1].fact.count,10);
+ changed.signals.find(s=>s.id==='remote')!.denominator=999;assert.deepEqual(buildEvidenceHooks(data(changed)).map(h=>h.id),['restock']);
 });

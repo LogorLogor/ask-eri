@@ -22,3 +22,12 @@ The new counts are an approved inclusion-policy and source-layout correction. Th
 - Mobile width 390 has no horizontal overflow; desktop market brief checked visually. Production browser console has no errors. Print-specific caveat and answer styling reviewed in source; printer/PDF pagination has not been exercised.
 - Production runtime: local operations 404; unknown edition 404; fixed edition 200; service reports unavailable; protected operations fails closed with 503 because credentials are absent. No local bypass or simulated email is enabled in production.
 - Production deployment and live Google/Redis/Resend activation remain blocked by owner configuration and hosting authorization. Existing Vercel authorization failure is not a passed deployment check.
+
+## Owner presentation correction
+
+- Removed the interview site route and navigation links; production `/interviews` and `/docs/offline/interview-kit.html` both return 404. The standalone offline file remains under `docs/offline/`, outside public assets. Its network-blocking policy, consent-gated fields/export and absence of automatic storage were reviewed in source; this browser tool cannot open file URLs, so offline browser execution was not verified.
+- Removed the site print action. Kept fixed aggregate evidence links and citations. No observation values or source rows changed.
+- Added three buyer-specific evidence examples with manual controls, eight-second rotation, pause, hover/focus suspension and reduced-motion handling. A new model test verifies all three counts/denominators/audiences, changed values and omission of withheld or unreconciled facts.
+- 78 tests and the production build pass. Removed-route stale generated type references disappeared on the clean production build.
+- Browser verified timed advancement, manual selection and pause; recordkeeping opens the financial-institution question and remote ordering opens the research question, without calculator assumptions. The compact initial desktop view shows the observed figure beside its buyer invitation and scope action (CTA top about 597px in the tested 668px viewport).
+- Existing live activation blockers remain; no real email, deployment or fieldwork is claimed.
