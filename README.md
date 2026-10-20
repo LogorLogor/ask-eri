@@ -43,3 +43,5 @@ No LLM API key is needed. General Ask ERI questions are not persisted. Explicit 
 
 ## Decision sandbox and Outpost 01
 Three evidence-informed planning explorers, quote-first field-brief enquiries, confirmed topic notifications and a longitudinal watch are included. Production email stays unavailable until configured; development uses a labelled local outbox. No forecast or unobserved trend is invented. See [operations and activation](docs/outpost-operations.md) and [product critique and next priorities](docs/product-critique.md).
+
+The homepage leads with a distributor market brief and supported questions. A fixed aggregate edition is at `/briefs/yaba-2026-10-20`; `/interviews` provides a private three-interview worksheet and `/operations` provides the protected fulfilment workspace. See [decision-led handoff](docs/decision-led-handoff.md) for owner responsibilities and activation limits.

@@ -11,3 +11,14 @@
 - No matched longitudinal series was fabricated or unlocked. Source integration remains a labelled snapshot until server service-account credentials are configured; no live production deployment is claimed.
 
 The new counts are an approved inclusion-policy and source-layout correction. They are not a measured economic change or proof of 115 distinct businesses. See `evidence-review-2026-10-20.md` for signal counts and provenance.
+
+## Decision-led product iteration
+
+- 77 tests pass, including all 17 routing cases. Added changed/withheld/reconciled evidence, frozen archival edition, citation, bounded request context, assumption-free investigation, interview retention and development-only operations gates.
+- Production build passes including TypeScript and 13 generated pages. No dependencies added. Published cohort and source remain unchanged.
+- Browser verified brief → question-only enquiry → explicit confirmation → captured requested edition/category → scope approval → clearly synthetic completion accepted into local outbox. No real email, customer approval, payment or fieldwork is claimed.
+- Archived edition renders fixed 115-observation aggregates and signal links. Its investigation link returns to an assumption-free enquiry with edition retained after hydration.
+- Three planned interview sessions render. A synthetic unsaved answer cannot be saved without agreement to take notes; reload discarded it. No interview was conducted and no real notes were entered or exported.
+- Mobile width 390 has no horizontal overflow; desktop market brief checked visually. Production browser console has no errors. Print-specific caveat and answer styling reviewed in source; printer/PDF pagination has not been exercised.
+- Production runtime: local operations 404; unknown edition 404; fixed edition 200; service reports unavailable; protected operations fails closed with 503 because credentials are absent. No local bypass or simulated email is enabled in production.
+- Production deployment and live Google/Redis/Resend activation remain blocked by owner configuration and hosting authorization. Existing Vercel authorization failure is not a passed deployment check.

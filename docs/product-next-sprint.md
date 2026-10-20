@@ -1,6 +1,6 @@
 # Next sprint: a decision-led market brief
 
-Draft implementation contract for discussion, 20 October 2026. This document specifies the next recommended build; it does not claim the feature is implemented, the service is activated or customer demand has been validated. No application code was changed for this strategy review.
+Implementation contract, 20 October 2026. The decision-led brief, archived aggregate edition, question-led enquiry, illustrative deliverable, private three-interview worksheet and operator workspace are implemented for testing. Live services and customer demand remain unvalidated. See `decision-led-handoff.md` for owner actions and verification limits.
 
 ## User story and placement
 
@@ -32,7 +32,7 @@ Observations: 7–16 October 2026. Published analysis: 20 October 2026, analysis
 
 1. Render observed facts and field-specific exclusions from the current `Evidence` object, not copied numeric strings. Recompute on refresh and withhold a finding if its signal is withheld. The editorial interpretation must remain a separate labelled field, never interpolated into a measured claim.
 2. Keep observation dates distinct from source-check and publication dates. A fresh source read does not mean the underlying field observations are new. Include the market scope, observation unit, identity-review count and snapshot/stale status where relevant.
-3. Provide one printable aggregate brief and citable evidence links. Print styling must retain the dates, denominator, limitations, source attribution and evidence version. Do not export source rows, private identifiers or contact details. Stable/versioned evidence links require a later bounded immutable aggregate-version store; do not promise permanent snapshots with only client state.
+3. Provide one printable aggregate brief and citable evidence links. Print styling must retain the dates, denominator, limitations, source attribution and evidence version. Do not export source rows, private identifiers or contact details. The bounded archive at `/briefs/yaba-2026-10-20` uses a separately committed aggregate file and frozen allowlist. Retain that file unchanged when publishing later editions; changed evidence must not reuse its citation.
 4. Lead the enquiry with the decision: buyer role, decision/question, intended geography/product category and desired deadline. Explain that desired coverage and timing are requests to scope, not existing dataset coverage or a delivery guarantee. Preserve the selected scenario and evidence version. Do not collect merchant private data in this form.
 5. Show supported evidence topics before free-text entry. Unsupported questions should offer an explicit, optional investigation enquiry. Do not persist unanswered questions silently or subscribe someone automatically.
 6. Show an illustrative deliverable before the email form. State which parts can be answered from existing evidence and which require new work. Keep quote-first approval and editorial completion controls.

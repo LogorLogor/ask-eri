@@ -53,3 +53,9 @@ Run `npm run operations -- work` to process retries and evidence updates. A site
 Initial cohort points remain separate from a true panel. There is no forecast line. The analyzer requires verified canonical identities, one initial visit, a later labelled visit, valid dates, no conflicting submissions and at least 10 complete pairs for each outcome. The same businesses supply both round denominators. Only the first two eligible visits are shown in this version; no continuous time-series claim.
 
 Even valid pairs are withheld until `ERI_PANEL_APPROVAL_REFERENCE` records internal sign-off for return-visit consent, matching, comparable instruments, visit windows, attrition and geographic scope. This is an operator approval gate, not automated consent verification. Keep it blank until that review exists. Never populate source rows or future points merely to make the graph move.
+
+## Browser workspace
+
+`/operations` uses the protected operations API in live mode; enter the server operations key only on a trusted deployment. The key remains in page memory, never browser storage. Clear the private view when finished. This workspace records operator attestations, not independent proof of customer approval, fieldwork, payment or inbox delivery.
+
+`/api/local-operations` is development-only, local-outbox-only and loopback-host-only; mutations additionally require the configured same origin. Production returns 404 before initializing local storage. Its seed action creates only a synthetic `.invalid` enquiry, never a cohort observation. Never enable a local bypass in production.
