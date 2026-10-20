@@ -194,7 +194,7 @@ export function createEngagementService(options: {
       const canPublish = options.publicationReady ? await options.publicationReady() : true;
       if (canPublish) {
       const previous = await store.get<string>(`${PREFIX}evidence-digest`);
-      if (previous && previous !== digest) await publishUpdate('signals', 'ERI published evidence updated', `The analysed cohort or supported findings changed. Current observation period: ${evidence.period.label}. ${evidence.quality.includedRows} eligible initial observations; ${evidence.quality.identityReviewRows} rows awaiting identity review. Revisions can reflect QA changes, not economic change. Read the current evidence and limitations at ${origin}/#analysis`, hash(`${previous}:${digest}`), digest);
+      if (previous && previous !== digest) await publishUpdate('signals', 'ERI published evidence updated', `The analysed cohort or supported findings changed. Current observation period: ${evidence.period.label}. ${evidence.quality.includedRows} eligible initial observations; ${evidence.quality.identityReviewRows} included observations awaiting identity review; possible repeat submissions remain unresolved. Revisions can reflect QA changes, not economic change. Read the current evidence and limitations at ${origin}/#analysis`, hash(`${previous}:${digest}`), digest);
       await store.set(`${PREFIX}evidence-digest`, digest);
       // Longitudinal notifications are a distinct opt-in and require real matched data.
       const panelDigest = evidence.longitudinal?.series.length ? hash(JSON.stringify(evidence.longitudinal)) : null;

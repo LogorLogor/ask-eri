@@ -39,6 +39,8 @@ export type Analysis = {
     revisitRows: number;
     provisionalIdentityRows: number;
     identityReviewRows: number;
+    identityExcludedRows: number;
+    recoveredRows: number;
   };
   distributions: Record<'payments' | 'records' | 'business' | 'restock' | 'credit' | 'remote', Distribution>;
   collection: { date: string; observations: number }[];

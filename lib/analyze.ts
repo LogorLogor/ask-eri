@@ -1,6 +1,7 @@
 import { SOURCE_COLUMNS, MIN_RESPONSES, type SourceTable } from './source-schema.ts';
 import type { Analysis, Distribution } from './evidence-types.ts';
 import { analyzeLongitudinal } from './longitudinal.ts';
+import { RECOVERED_IDENTITY } from './source-recovery.ts';
 
 const clean = (value: string) => value.trim().replace(/\s+/g, ' ').toLowerCase();
 const empty = (): Distribution => ({ counts: {}, valid: 0, missing: 0, unknown: 0, ambiguous: 0, notApplicable: 0 });
@@ -36,7 +37,7 @@ export function analyze(table: SourceTable, now = new Date(), panelApprovalRefer
   }
   const quality: Analysis['quality'] = {
     sourceRows: 0, includedRows: 0, heldRows: 0, duplicateRows: 0, invalidRows: 0,
-    pilotRows: 0, revisitRows: 0, provisionalIdentityRows: 0, identityReviewRows: 0,
+    pilotRows: 0, revisitRows: 0, provisionalIdentityRows: 0, identityReviewRows: 0, identityExcludedRows: 0, recoveredRows: 0,
   };
   const distributions: Analysis['distributions'] = {
     payments: empty(), records: empty(), business: empty(), restock: empty(), credit: empty(), remote: empty(),
@@ -61,8 +62,8 @@ export function analyze(table: SourceTable, now = new Date(), panelApprovalRefer
     if (signatures.size > 1) { quality.duplicateRows += group.length; continue; }
     quality.duplicateRows += group.length - 1;
     const row = group[0];
-    if (group.some(copy => /^(review|reject|exclude|hold)\b/.test(clean(copy.identity)))) {
-      quality.identityReviewRows++; continue;
+    if (group.some(copy => /^(reject|exclude|hold)\b/.test(clean(copy.identity)))) {
+      quality.identityExcludedRows++; continue;
     }
     const type = clean(row.type);
     if (/\bpilot\b/.test(type)) { quality.pilotRows++; continue; }
@@ -71,8 +72,10 @@ export function analyze(table: SourceTable, now = new Date(), panelApprovalRefer
       quality.invalidRows++; continue;
     }
     quality.includedRows++;
+    if (group.some(copy => /^review\b/.test(clean(copy.identity)))) quality.identityReviewRows++;
+    if (row.identity === RECOVERED_IDENTITY) quality.recoveredRows++;
     dates.push(row.date);
-    if (clean(row.identity) !== 'verified') quality.provisionalIdentityRows++;
+    if (clean(row.identity) !== 'verified' || group.some(copy => /^review\b/.test(clean(copy.identity)))) quality.provisionalIdentityRows++;
     for (const field of ['payments', 'business', 'credit', 'remote'] as const) count(distributions[field], row[field], enums[field]);
 
     const restock = distributions.restock;

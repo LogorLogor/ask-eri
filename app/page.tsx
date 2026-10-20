@@ -90,7 +90,7 @@ export default function Page() {
         <button aria-label="Submit question" disabled={!q.trim()}><ArrowRight size={22} /></button>
       </form>
       <div className="prompts"><span>START WITH A QUESTION</span><div className="promptgrid">{signals.filter(s => s.id !== 'coverage').slice(0, 4).map(s => <button key={s.id} onClick={() => ask(s.question)}>{s.question}<MoveUpRight size={17} /></button>)}</div></div>
-      <p className="disclaimer">{quality.includedRows} eligible initial observations; {quality.provisionalIdentityRows} with unverified identities. This non-representative Lagos cohort does not establish unique business counts or measured longitudinal change.</p>
+      <p className="disclaimer">{quality.includedRows} eligible initial observations; {quality.provisionalIdentityRows} with unverified identities. {quality.identityReviewRows} included observations await identity review and may be repeat submissions. This non-representative Lagos cohort does not establish unique business counts or measured longitudinal change.</p>
     </section>
     <section className="answerwrap" id="answer" aria-live="polite">
       {submitted !== null && (selected ? <article className="answer">
@@ -130,7 +130,7 @@ export default function Page() {
       </ol>
       <details className="quality-details">
         <summary>Inspect data quality and denominators</summary>
-        <p>{quality.invalidRows} invalid or misaligned rows; {quality.identityReviewRows} rows awaiting identity review; {quality.duplicateRows} duplicate or conflicting copies; {quality.pilotRows} pilot rows; {quality.revisitRows} revisit rows held apart. Blank rows are ignored.</p>
+        <p>{quality.invalidRows} invalid or misaligned rows; {quality.identityReviewRows} included observations awaiting identity review; {quality.identityExcludedRows} explicitly excluded by identity QA; {quality.recoveredRows} shifted rows recovered; {quality.duplicateRows} duplicate or conflicting copies; {quality.pilotRows} pilot rows; {quality.revisitRows} revisit rows held apart. Blank rows are ignored.</p>
         <div className="quality-table-wrap"><table>
           <caption>Response classification within the {quality.includedRows} eligible observations</caption>
           <thead><tr><th scope="col">Signal</th><th scope="col">Valid</th><th scope="col">Missing</th><th scope="col">Unknown</th><th scope="col">Contradictory</th><th scope="col">Not applicable</th></tr></thead>

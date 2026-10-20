@@ -1,30 +1,34 @@
 {
-  "version": "analysis-v2",
-  "analyzedAt": "2026-10-19T17:36:38.126Z",
+  "version": "analysis-v3",
+  "analyzedAt": "2026-10-20T04:52:10.116Z",
   "collection": [
     {
       "date": "2026-10-07",
-      "observations": 17
+      "observations": 19
     },
     {
       "date": "2026-10-08",
-      "observations": 16
+      "observations": 18
     },
     {
       "date": "2026-10-09",
-      "observations": 11
+      "observations": 23
     },
     {
       "date": "2026-10-10",
-      "observations": 14
+      "observations": 22
     },
     {
       "date": "2026-10-11",
-      "observations": 4
+      "observations": 7
     },
     {
       "date": "2026-10-15",
       "observations": 25
+    },
+    {
+      "date": "2026-10-16",
+      "observations": 1
     }
   ],
   "longitudinal": {
@@ -34,58 +38,60 @@
   },
   "period": {
     "start": "2026-10-07",
-    "end": "2026-10-15",
-    "label": "7 October 2026 – 15 October 2026"
+    "end": "2026-10-16",
+    "label": "7 October 2026 – 16 October 2026"
   },
   "quality": {
     "sourceRows": 115,
-    "includedRows": 87,
-    "heldRows": 28,
+    "includedRows": 115,
+    "heldRows": 0,
     "duplicateRows": 0,
-    "invalidRows": 1,
+    "invalidRows": 0,
     "pilotRows": 0,
     "revisitRows": 0,
-    "provisionalIdentityRows": 87,
-    "identityReviewRows": 27
+    "provisionalIdentityRows": 115,
+    "identityReviewRows": 27,
+    "identityExcludedRows": 0,
+    "recoveredRows": 1
   },
   "fields": {
     "payments": {
-      "valid": 86,
+      "valid": 114,
       "missing": 0,
       "unknown": 1,
       "ambiguous": 0,
       "notApplicable": 0
     },
     "records": {
-      "valid": 84,
+      "valid": 112,
       "missing": 0,
       "unknown": 2,
       "ambiguous": 1,
       "notApplicable": 0
     },
     "business": {
-      "valid": 86,
+      "valid": 114,
       "missing": 0,
       "unknown": 1,
       "ambiguous": 0,
       "notApplicable": 0
     },
     "restock": {
-      "valid": 76,
+      "valid": 104,
       "missing": 0,
       "unknown": 1,
       "ambiguous": 0,
       "notApplicable": 10
     },
     "credit": {
-      "valid": 87,
+      "valid": 115,
       "missing": 0,
       "unknown": 0,
       "ambiguous": 0,
       "notApplicable": 0
     },
     "remote": {
-      "valid": 87,
+      "valid": 115,
       "missing": 0,
       "unknown": 0,
       "ambiguous": 0,
@@ -97,82 +103,82 @@
       "id": "payments",
       "question": "How are merchants receiving payments in Yaba?",
       "title": "Reported primary payment methods",
-      "answer": "Of 86 classifiable responses, 60 named transfers, 21 cash and 5 POS/card as the method receiving the largest share of customer payments.",
+      "answer": "Of 114 classifiable responses, 70 named transfers, 39 cash and 5 POS/card as the method receiving the largest share of customer payments.",
       "metrics": [
         {
-          "value": "60 / 86",
+          "value": "70 / 114",
           "label": "Transfer is primary"
         },
         {
-          "value": "21 / 86",
+          "value": "39 / 114",
           "label": "Cash is primary"
         }
       ],
-      "denominator": 86,
+      "denominator": 114,
       "excludedResponses": 1,
-      "context": "86 classifiable responses from 87 eligible initial observations. 0 missing, 1 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
-      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. These are reported primary methods, not transaction volumes or market shares.",
+      "context": "114 classifiable responses from 115 eligible initial observations. 0 missing, 1 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. 27 included observations have unresolved identity-review flags and may include repeat submissions. Observations are not verified unique businesses. No national estimates or causal claims. These are reported primary methods, not transaction volumes or market shares.",
       "observed": {
-        "count": 60,
-        "denominator": 86
+        "count": 70,
+        "denominator": 114
       }
     },
     {
       "id": "records",
       "question": "Do merchants keep track of their sales records?",
       "title": "Reported recordkeeping practices",
-      "answer": "42 of 84 classifiable responses selected “No records”. 42 selected another recognised response. Mixed “No records” selections and unrecognised options are held out.",
+      "answer": "56 of 112 classifiable responses selected “No records”. 56 selected another recognised response. Mixed “No records” selections and unrecognised options are held out.",
       "metrics": [
         {
-          "value": "42 / 84",
+          "value": "56 / 112",
           "label": "Selected no records"
         },
         {
-          "value": "42 / 84",
+          "value": "56 / 112",
           "label": "Other recognised response"
         }
       ],
-      "denominator": 84,
+      "denominator": 112,
       "excludedResponses": 3,
-      "context": "84 classifiable responses from 87 eligible initial observations. 0 missing, 2 unknown or unrecognised, 1 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
-      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. The combined “Memory Notebook/paper” option cannot distinguish memory from written records. Payment and recordkeeping totals do not establish individual overlap.",
+      "context": "112 classifiable responses from 115 eligible initial observations. 0 missing, 2 unknown or unrecognised, 1 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. 27 included observations have unresolved identity-review flags and may include repeat submissions. Observations are not verified unique businesses. No national estimates or causal claims. The combined “Memory Notebook/paper” option cannot distinguish memory from written records. Payment and recordkeeping totals do not establish individual overlap.",
       "observed": {
-        "count": 42,
-        "denominator": 84
+        "count": 56,
+        "denominator": 112
       }
     },
     {
       "id": "business",
       "question": "Are trading conditions improving?",
       "title": "Recalled business conditions over three months",
-      "answer": "Of 86 classifiable responses, 64 described business as better than about three months earlier, 14 about the same and 8 worse.",
+      "answer": "Of 114 classifiable responses, 89 described business as better than about three months earlier, 16 about the same and 9 worse.",
       "metrics": [
         {
-          "value": "64 / 86",
+          "value": "89 / 114",
           "label": "Reported better conditions"
         },
         {
-          "value": "8 / 86",
+          "value": "9 / 114",
           "label": "Reported worse conditions"
         }
       ],
-      "denominator": 86,
+      "denominator": 114,
       "excludedResponses": 1,
-      "context": "86 classifiable responses from 87 eligible initial observations. 0 missing, 1 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
-      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. Retrospective recollection at an initial visit is not measured longitudinal change. “Too new to say” is excluded.",
+      "context": "114 classifiable responses from 115 eligible initial observations. 0 missing, 1 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. 27 included observations have unresolved identity-review flags and may include repeat submissions. Observations are not verified unique businesses. No national estimates or causal claims. Retrospective recollection at an initial visit is not measured longitudinal change. “Too new to say” is excluded.",
       "observed": {
-        "count": 64,
-        "denominator": 86
+        "count": 89,
+        "denominator": 114
       }
     },
     {
       "id": "restock",
       "question": "Are restocking costs changing?",
       "title": "Reported restocking expenditure",
-      "answer": "Among 76 classifiable responses from businesses that restock, 59 reported higher expenditure, 16 about the same and 1 lower than about three months earlier.",
+      "answer": "Among 104 classifiable responses from businesses that restock, 85 reported higher expenditure, 18 about the same and 1 lower than about three months earlier.",
       "metrics": [
         {
-          "value": "59 / 76",
+          "value": "85 / 104",
           "label": "Reported higher expenditure"
         },
         {
@@ -180,82 +186,82 @@
           "label": "Do not restock; excluded"
         }
       ],
-      "denominator": 76,
+      "denominator": 104,
       "excludedResponses": 11,
-      "context": "76 classifiable responses from 87 eligible initial observations. 0 missing, 1 unknown or unrecognised, 0 contradictory, 10 not applicable. Only classifiable responses enter this signal’s denominator.",
-      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. Expenditure can change with prices, quantities or product mix. This does not measure price inflation or profit margins.",
+      "context": "104 classifiable responses from 115 eligible initial observations. 0 missing, 1 unknown or unrecognised, 0 contradictory, 10 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. 27 included observations have unresolved identity-review flags and may include repeat submissions. Observations are not verified unique businesses. No national estimates or causal claims. Expenditure can change with prices, quantities or product mix. This does not measure price inflation or profit margins.",
       "observed": {
-        "count": 59,
-        "denominator": 76
+        "count": 85,
+        "denominator": 104
       }
     },
     {
       "id": "credit",
       "question": "How common is business borrowing?",
       "title": "Reported borrowing or supplier credit",
-      "answer": "25 of 87 classifiable responses reported borrowing money or receiving goods on credit for business operations during the previous 12 months; 62 reported neither.",
+      "answer": "30 of 115 classifiable responses reported borrowing money or receiving goods on credit for business operations during the previous 12 months; 85 reported neither.",
       "metrics": [
         {
-          "value": "25 / 87",
+          "value": "30 / 115",
           "label": "Reported borrowing or goods on credit"
         },
         {
-          "value": "62 / 87",
+          "value": "85 / 115",
           "label": "Reported neither"
         }
       ],
-      "denominator": 87,
+      "denominator": 115,
       "excludedResponses": 0,
-      "context": "87 classifiable responses from 87 eligible initial observations. 0 missing, 0 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
-      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. The combined question does not distinguish loans from supplier credit or measure unmet demand.",
+      "context": "115 classifiable responses from 115 eligible initial observations. 0 missing, 0 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. 27 included observations have unresolved identity-review flags and may include repeat submissions. Observations are not verified unique businesses. No national estimates or causal claims. The combined question does not distinguish loans from supplier credit or measure unmet demand.",
       "observed": {
-        "count": 25,
-        "denominator": 87
+        "count": 30,
+        "denominator": 115
       }
     },
     {
       "id": "remote",
       "question": "Do businesses accept remote orders?",
       "title": "Reported remote ordering",
-      "answer": "Of 87 classifiable responses, 12 accepted remote orders regularly, 36 sometimes and 39 not at all.",
+      "answer": "Of 115 classifiable responses, 14 accepted remote orders regularly, 42 sometimes and 59 not at all.",
       "metrics": [
         {
-          "value": "48 / 87",
+          "value": "56 / 115",
           "label": "Regular or occasional orders"
         },
         {
-          "value": "39 / 87",
+          "value": "59 / 115",
           "label": "No remote orders"
         }
       ],
-      "denominator": 87,
+      "denominator": 115,
       "excludedResponses": 0,
-      "context": "87 classifiable responses from 87 eligible initial observations. 0 missing, 0 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
-      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims. Phone and messaging orders are included. This does not measure online sales value.",
+      "context": "115 classifiable responses from 115 eligible initial observations. 0 missing, 0 unknown or unrecognised, 0 contradictory, 0 not applicable. Only classifiable responses enter this signal’s denominator.",
+      "limitations": "Non-representative field cohort; self-reported responses. 27 included observations have unresolved identity-review flags and may include repeat submissions. Observations are not verified unique businesses. No national estimates or causal claims. Phone and messaging orders are included. This does not measure online sales value.",
       "observed": {
-        "count": 48,
-        "denominator": 87
+        "count": 56,
+        "denominator": 115
       }
     },
     {
       "id": "coverage",
       "question": "Where does ERI have evidence today?",
       "title": "Current published cohort",
-      "answer": "87 eligible initial observations dated 7 October 2026 – 15 October 2026 are included in this analysis of the configured Yaba–Sabo–Tejuosho cohort in Lagos. 28 source rows are held out of the published cohort.",
+      "answer": "115 eligible initial observations dated 7 October 2026 – 16 October 2026 are included in this analysis of the configured Yaba–Sabo–Tejuosho cohort in Lagos. 27 identity-review observations are included with warnings, and 1 shifted source rows were recovered. 0 source rows are held out of the published cohort.",
       "metrics": [
         {
-          "value": "87",
+          "value": "115",
           "label": "Eligible initial observations"
         },
         {
-          "value": "28",
+          "value": "0",
           "label": "Source rows held out"
         }
       ],
-      "denominator": 87,
-      "excludedResponses": 28,
+      "denominator": 115,
+      "excludedResponses": 0,
       "context": "Geography is the configured scope of this source; the form has no row-level market field. The historical 10-record pilot is not added to this source. No verified longitudinal comparison is published.",
-      "limitations": "Non-representative field cohort; self-reported responses. Observations are not verified unique businesses. No national estimates or causal claims."
+      "limitations": "Non-representative field cohort; self-reported responses. 27 included observations have unresolved identity-review flags and may include repeat submissions. Observations are not verified unique businesses. No national estimates or causal claims."
     }
   ],
   "coverage": [
@@ -264,8 +270,8 @@
       "country": "Nigeria",
       "region": "Lagos",
       "cluster": "Yaba · Sabo · Tejuosho",
-      "publishedRecords": 87,
-      "period": "7 October 2026 – 15 October 2026"
+      "publishedRecords": 115,
+      "period": "7 October 2026 – 16 October 2026"
     }
   ]
 }
