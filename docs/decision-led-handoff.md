@@ -5,10 +5,10 @@
 ## Test-site journey
 
 - `/#market-brief`: distributor/procurement lead sees dated observations, possible relevance, unknowns and a next field question before the question box.
-- `/briefs/yaba-2026-10-20`: fixed aggregate edition with six evidence cards, denominator caveats and print styling. Never overwrite its archive file with a later refresh; add a reviewed edition instead.
+- `/briefs/yaba-2026-10-20`: fixed aggregate edition with six evidence cards and denominator caveats. Never overwrite its archive file with a later refresh; add a reviewed edition instead.
 - `/#sample-deliverable`: illustrative baseline → proposed collection → reviewed deliverable. It is not completed research.
 - `/#field-request`: decision-led scope enquiry, requested role, geography, category and optional deadline. Requested coverage is not current coverage or a promise. Scenario enquiries retain explicit assumptions; brief enquiries have none.
-- `/interviews`: three planned sessions, neutral prompts, explicit local save/export and consent checks. Notes are never cohort evidence or sent to an API. Save only on a trusted device; keep exports out of Git.
+- `docs/offline/interview-kit.html`: standalone offline file for three planned sessions, neutral prompts and consent-gated export. No site route, network calls or automatic storage. Export private notes before closing; keep them out of Git.
 - `/operations`: owner workspace for confirmed enquiry, agreed scope/quote/customer approval, editorial completion and queued delivery. Development loopback has a synthetic demonstration; production requires operations authorization. No payment is collected.
 
 ## Your three interviews
@@ -32,3 +32,10 @@ The operator attests to customer approval and editorial review; software cannot 
 ## Next build decision
 
 Prioritize the decision recurring across interviews, then one deliverable customers use in practice. Measure comprehension, scoped enquiries, approved work, delivery effort and a repeat decision. Defer subscriptions, expansion and richer simulation until needs and collection capacity support them. The public brief is the entry point; dependable fieldwork and useful interpretation are the product.
+
+
+## Owner revision: evidence hooks and offline discovery
+
+The first view is compact so the observed signal and corresponding buyer investigation appear together sooner. Three manual/rotating examples pair restocking with distributors, recordkeeping with financial-institution pilots, and remote ordering with research partners. Each uses its own reconciled denominator. Rotation runs every eight seconds, pauses during card interaction, stops after manual selection and is disabled for reduced-motion preferences. Withheld findings are omitted, never backfilled. The enquiry carries the selected audience and question.
+
+The interview route and all site links were removed. Open `docs/offline/interview-kit.html` directly on your computer; it makes no network calls and stores nothing automatically. Export private notes before closing. Keep exports outside the checkout. Existing notes in a browser's former site storage are not read, migrated or deleted by this revision. The site print action was removed; fixed aggregate citations remain available.

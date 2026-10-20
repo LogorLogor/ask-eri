@@ -1,12 +1,12 @@
 # Next sprint: a decision-led market brief
 
-Implementation contract, 20 October 2026. The decision-led brief, archived aggregate edition, question-led enquiry, illustrative deliverable, private three-interview worksheet and operator workspace are implemented for testing. Live services and customer demand remain unvalidated. See `decision-led-handoff.md` for owner actions and verification limits.
+Implementation contract, 20 October 2026. The decision-led brief, archived aggregate edition, question-led enquiry, illustrative deliverable, offline three-interview worksheet and operator workspace are implemented for testing. Live services and customer demand remain unvalidated. See `decision-led-handoff.md` for owner actions and verification limits.
 
 ## User story and placement
 
 As a distributor or procurement lead considering a purchasing or ordering pilot in the configured Yaba–Sabo–Tejuosho cohort, I want a concise dated brief that shows what was observed, what it might mean for my decision, and what ERI would need to verify next, so I can choose a useful investigation.
 
-Place it immediately after the introduction and source/scope indicator, before asking the visitor to type an unrestricted question. Keep access to all supported signals and the existing audience explorers. Primary action: “Investigate this question”. Secondary actions: “Inspect the evidence” and “Print this brief”. Buyer-facing wording must avoid internal implementation terminology.
+Place it immediately after the introduction and source/scope indicator, before asking the visitor to type an unrestricted question. Keep access to all supported signals and the existing audience explorers. Primary action: “Investigate this question”. Secondary actions: “Inspect the evidence” and “See what a field brief includes”. Buyer-facing wording must avoid internal implementation terminology.
 
 ## Sample brief using only published aggregates
 
@@ -32,7 +32,7 @@ Observations: 7–16 October 2026. Published analysis: 20 October 2026, analysis
 
 1. Render observed facts and field-specific exclusions from the current `Evidence` object, not copied numeric strings. Recompute on refresh and withhold a finding if its signal is withheld. The editorial interpretation must remain a separate labelled field, never interpolated into a measured claim.
 2. Keep observation dates distinct from source-check and publication dates. A fresh source read does not mean the underlying field observations are new. Include the market scope, observation unit, identity-review count and snapshot/stale status where relevant.
-3. Provide one printable aggregate brief and citable evidence links. Print styling must retain the dates, denominator, limitations, source attribution and evidence version. Do not export source rows, private identifiers or contact details. The bounded archive at `/briefs/yaba-2026-10-20` uses a separately committed aggregate file and frozen allowlist. Retain that file unchanged when publishing later editions; changed evidence must not reuse its citation.
+3. Provide a citable aggregate brief and fixed evidence links. The owner requested removal of the print action; citation and evidence inspection are the explicit controls. Do not export source rows, private identifiers or contact details. The bounded archive at `/briefs/yaba-2026-10-20` uses a separately committed aggregate file and frozen allowlist. Retain that file unchanged when publishing later editions; changed evidence must not reuse its citation.
 4. Lead the enquiry with the decision: buyer role, decision/question, intended geography/product category and desired deadline. Explain that desired coverage and timing are requests to scope, not existing dataset coverage or a delivery guarantee. Preserve the selected scenario and evidence version. Do not collect merchant private data in this form.
 5. Show supported evidence topics before free-text entry. Unsupported questions should offer an explicit, optional investigation enquiry. Do not persist unanswered questions silently or subscribe someone automatically.
 6. Show an illustrative deliverable before the email form. State which parts can be answered from existing evidence and which require new work. Keep quote-first approval and editorial completion controls.
