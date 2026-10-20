@@ -1,5 +1,7 @@
 # Evidence review: 19 October 2026
 
+Historical review. The owner changed the inclusion policy on 20 October; see `evidence-review-2026-10-20.md` for the current 115-observation cohort. The figures below document the earlier held-out policy.
+
 The source was re-read from the private Sheet1 tab, using only allowlisted columns. There are 114 initial submissions and one misaligned row. The identity-QA column now flags 27 submissions as `REVIEW: possible repeat submission`; the remaining 87 have provisional, unverified identities.
 
 Publication now holds those 27 flagged submissions apart, as well as the misaligned row. A review flag is neither a verified duplicate nor a verified revisit. The eligible cohort is 87 observations, not 87 verified unique businesses. Source dates remain 7–15 October 2026.

@@ -15,7 +15,7 @@ The product's value should be a shorter route from a decision to credible field 
 
 ## Limits that matter
 
-The current snapshot contains 87 eligible initial observations after 27 identity-review flags and one malformed row were held out. Identities are provisional, the geography is configured at cohort level, and no reviewed matched panel is published. It is not a representative market sample. Separate aggregate signals do not establish which businesses share two characteristics. Reported expenditure changes do not establish supplier-price inflation. There is no verified demand, profit, sales, repayment or causal impact model.
+The current snapshot contains 115 initial observations after the owner approved including 27 identity-review observations with warnings and recovery of one shifted row. Possible repeat submissions remain unresolved; the expanded denominator is an inclusion-policy change, not economic change. Identities are provisional, the geography is configured at cohort level, and no reviewed matched panel is published. It is not a representative market sample. Separate aggregate signals do not establish which businesses share two characteristics. Reported expenditure changes do not establish supplier-price inflation. There is no verified demand, profit, sales, repayment or causal impact model.
 
 Three audience explorers risk diluting the first buyer story. The financial-institution calculator is operational planning, not underwriting; the research calculator is visit budgeting, not a study-design service. Keep a distributor-led entry point and measure whether the other paths attract qualified questions before expanding them.
 
