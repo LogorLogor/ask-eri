@@ -123,3 +123,8 @@ test('overlapping confirmations for one email cannot restore a replaced subscrip
  await f.service.action('confirm',first.id,first.token);
  const records=(await f.service.operations()).records;assert.equal(records.length,1);assert.equal(records[0].id,second.id);assert.deepEqual(records[0].topics,['site']);
 });
+test('question-led requests retain scoped context and require confirmation before work',async t=>{
+ const f=await fixture(t);const result=await f.service.submit({kind:'request',requestMode:'investigation',audience:'distributors',email:'question-test@example.invalid',organisation:'Synthetic team',question:'Which replenishment constraints should we investigate before a pilot?',requestContext:{buyerRole:'Distributor / procurement',geography:'Example requested place',productCategory:'Example category',desiredDeadline:'2026-11-05'},consent:true},'client');
+ const url=new URL(result.confirmationUrl!);const records=(await f.service.operations()).records;assert.equal(records.length,1);assert.deepEqual(records[0].brief!.assumptions,[]);assert.equal(records[0].brief!.evidenceVersion,evidence.version);assert.equal(records[0].requestContext!.desiredDeadline,'2026-11-05');assert.equal(records[0].status,'pending');await f.service.action('confirm',url.searchParams.get('id')!,url.searchParams.get('token')!);assert.match(f.sent.at(-1)!.text,/Example requested place/);assert.match(f.sent.at(-1)!.text,/not a delivery promise/);
+ await assert.rejects(f.service.submit({kind:'request',requestMode:'investigation',audience:'research',email:'bad-date@example.invalid',organisation:'Synthetic',question:'A sufficiently long research question',requestContext:{desiredDeadline:'2026-02-30'},consent:true},'client'));
+});

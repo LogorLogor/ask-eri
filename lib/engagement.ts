@@ -1,7 +1,8 @@
 import { createHash, randomBytes, randomUUID, timingSafeEqual } from 'node:crypto';
-import { buildDecision, evidenceDigestContent, type Audience, type DecisionInputs, type DecisionBrief } from './decision-model.ts';
+import { buildDecision, buildInvestigation, evidenceDigestContent, type Audience, type DecisionInputs, type DecisionBrief } from './decision-model.ts';
 import type { Evidence } from './evidence-types.ts';
 import type { EngagementStore } from './engagement-store.ts';
+import { requestContext, type RequestContext } from './request-context.ts';
 
 const PREFIX = 'eri:v1:';
 const DAY = 86400;
@@ -15,6 +16,7 @@ export type EngagementRecord = {
   createdAt: string; confirmedAt?: string; consentVersion: string; topics: NotificationTopic[];
   confirmHash: string; cancelHash: string; confirmationExpires: number;
   cancelToken: string; confirmationToken: string;
+  requestContext?: RequestContext;
   scope?: { description: string; quote: string; approvalReference: string; approvedAt: string };
   brief?: DecisionBrief; customQuestion?: string; report?: string; emailAcceptedAt?: string;
 };
@@ -96,12 +98,19 @@ export function createEngagementService(options: {
     if (kind === 'subscription' && (!topics.length || topics.length !== new Set(input.topics as unknown[]).size)) throw new PublicServiceError('Choose at least one supported notification topic.');
     let brief: DecisionBrief | undefined;
     if (kind === 'request') {
-      if (!input.inputs || typeof input.inputs !== 'object' || Array.isArray(input.inputs)) throw new PublicServiceError('Include valid scenario assumptions.');
-      try { brief = buildDecision(input.audience as Audience, input.inputs as DecisionInputs, await options.evidence()); }
-      catch { throw new PublicServiceError('Check the audience and scenario assumptions.'); }
+      if (input.requestMode !== undefined && !['scenario','investigation'].includes(String(input.requestMode))) throw new PublicServiceError('Choose a supported enquiry.');
+      try {
+        if (input.requestMode === 'investigation') brief = buildInvestigation(input.audience as Audience, String(input.question ?? ''), await options.evidence());
+        else {
+          if (!input.inputs || typeof input.inputs !== 'object' || Array.isArray(input.inputs)) throw new Error('Include valid scenario assumptions.');
+          brief = buildDecision(input.audience as Audience, input.inputs as DecisionInputs, await options.evidence());
+        }
+      } catch { throw new PublicServiceError('Check the audience, decision question and scenario assumptions.'); }
     }
+    let context: RequestContext | undefined;
+    if (kind === 'request') { try { context=requestContext(input.requestContext); } catch { throw new PublicServiceError('Check your decision details and desired deadline.'); } }
     const confirmationToken = secret(); const cancelToken = secret();
-    const record: EngagementRecord = { id: randomUUID(), kind, email, organisation: text(input.organisation ?? '', 160, kind === 'request' ? 2 : 0), status: 'pending', consentVersion: '2026-10-19', topics, createdAt: now(), confirmHash: hash(confirmationToken), cancelHash: hash(cancelToken), confirmationExpires: clock() + 2 * DAY * 1000, confirmationToken, cancelToken, brief, customQuestion: kind === 'request' ? text(input.question ?? '', 1500) : undefined };
+    const record: EngagementRecord = { id: randomUUID(), kind, email, organisation: text(input.organisation ?? '', 160, kind === 'request' ? 2 : 0), status: 'pending', consentVersion: '2026-10-19', topics, createdAt: now(), confirmHash: hash(confirmationToken), cancelHash: hash(cancelToken), confirmationExpires: clock() + 2 * DAY * 1000, confirmationToken, cancelToken, brief, requestContext: context, customQuestion: kind === 'request' ? text(input.question ?? '', 1500) : undefined };
     await save(record, 2 * DAY);
     const confirmationUrl = actionLink('confirm', record.id, confirmationToken);
     const id = await queue(record, 'confirm', { subject: kind === 'request' ? 'Confirm your ERI field-brief request' : 'Confirm your ERI signal notifications', text: `Confirm this ${kind === 'request' ? 'field-brief enquiry' : 'notification signup'}:\n\n${confirmationUrl}\n\nThis link expires in 48 hours. If you did not request it, ignore this email. No payment has been taken.\n\nCancel and remove this contact record: ${cancelLink(record)}`, unsubscribe: cancelLink(record) });
@@ -139,7 +148,7 @@ export function createEngagementService(options: {
       }
       if (record.kind === 'request') await save(record, 180 * DAY);
       if (record.kind === 'request') {
-        const job = await queue(record, 'receipt', { subject: 'ERI field-brief enquiry received', text: `Your enquiry is confirmed. Reference: ${record.id}\n\nERI will review the question and propose scope, price and timing before any paid fieldwork. No payment has been taken and no study has started.\n\n${record.brief?.question}\n\nCancel and remove your contact record: ${cancelLink(record)}`, unsubscribe: cancelLink(record) });
+        const job = await queue(record, 'receipt', { subject: 'ERI field-brief enquiry received', text: `Your enquiry is confirmed. Reference: ${record.id}\n\nERI will review the question and propose scope, price and timing before any paid fieldwork. No payment has been taken and no study has started.\n\n${record.customQuestion || record.brief?.question}\n\nRequested role: ${record.requestContext?.buyerRole || 'Not supplied'}. Requested geography: ${record.requestContext?.geography || 'To agree'}. Category: ${record.requestContext?.productCategory || 'To agree'}. Desired deadline: ${record.requestContext?.desiredDeadline || 'To agree'} (not a delivery promise). Requested source edition: ${record.requestContext?.sourceEdition || 'Current view'}.\n\nCancel and remove your contact record: ${cancelLink(record)}`, unsubscribe: cancelLink(record) });
         await sendJob(job);
       }
       return { message: record.kind === 'subscription' ? 'Notifications confirmed for your selected topics. You can unsubscribe from any update. Confirmation lasts up to 12 months.' : 'Your field-brief enquiry is confirmed. Scope, price and timing must be agreed before any fieldwork.' };

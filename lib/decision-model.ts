@@ -75,3 +75,10 @@ export function evidenceDigestContent(evidence: Evidence) {
   const { analyzedAt: _timestamp, ...content } = evidence;
   return JSON.stringify(content);
 }
+
+// A question-led enquiry captures evidence without inventing calculator inputs.
+export function buildInvestigation(audience: Audience, question: string, evidence: Evidence): DecisionBrief {
+  const config=audiences.find(item=>item.id===audience);
+  if (!config || typeof question !== 'string' || question.trim().length < 10 || question.length > 1500) throw new Error('Describe the decision in at least 10 characters.');
+  return { audience, title: 'Scoped investigation enquiry', question: question.trim(), measures: 'Agree the decision, coverage, participants, consent, comparable measures and timing before fieldwork.', assumptions: [], results: [], limitations: 'An enquiry, not a commissioned study, price quote or predicted outcome. Requested geography and deadline must be checked for feasibility.', evidence: evidence.signals.filter(signal=>(config.evidenceIds as readonly string[]).includes(signal.id)).map(signal=>({id:signal.id,title:signal.title,fact:signal.answer,context:signal.context})), evidenceVersion:evidence.version,evidenceDate:evidence.analyzedAt,observationPeriod:evidence.period.label,cohortSize:evidence.quality.includedRows };
+}

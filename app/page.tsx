@@ -5,6 +5,7 @@ import { ArrowUpRight, ArrowRight, Search, MoveUpRight, ShieldCheck, MapPin, Cal
 import { answerFor, defaultEvidence } from '../lib/evidence';
 import type { EvidenceResponse } from '../lib/evidence-types';
 import DecisionHub from '../components/DecisionHub';
+import MarketBrief, { type Investigation } from '../components/MarketBrief';
 
 const initialData: EvidenceResponse = {
   evidence: defaultEvidence,
@@ -25,6 +26,9 @@ export default function Page() {
   const [q, setQ] = useState('');
   const [submitted, setSubmitted] = useState<string | null>(null);
   const [location, setLocation] = useState('all');
+  const [investigation,setInvestigation] = useState<(Investigation & {key:number}) | null>(null);
+  function investigate(request:Investigation) { setInvestigation({...request,key:Date.now()}); }
+  useEffect(() => { const question=new URLSearchParams(window.location.search).get('question'); if(question) { setInvestigation({question:question.slice(0,1500),audience:'distributors',edition:new URLSearchParams(window.location.search).get('edition') || undefined,key:Date.now()}); } }, []);
   const { evidence, connection } = data;
   const { signals, coverage, quality, period } = evidence;
   // Open answers follow updated evidence; withheld signals cannot leave a stale answer.
@@ -65,12 +69,13 @@ export default function Page() {
   return <main>
     <header>
       <a className="wordmark" href="https://www.useeri.com">eri<span className="dot">.</span></a>
-      <nav><a href="#coverage">Coverage</a><a href="#explore">Signals</a><a href="#analysis">Analysis</a><a href="#what-if">Sandbox</a><a href="https://www.useeri.com">Main site <ArrowUpRight size={15} /></a></nav>
+      <nav><a href="#market-brief">Market brief</a><a href="#ask">Questions</a><a href="#what-if">Sandbox</a><a href="#notifications">Updates</a><a href="/interviews">Interview kit</a></nav>
     </header>
     <section className="hero">
-      <div className="eyebrow"><span className="live" /> FIELD INTELLIGENCE / GROWING ACROSS AFRICA</div>
+      <div className="eyebrow"><span className="live" /> FIELD INTELLIGENCE / STARTING WITH THE LAGOS COHORT</div>
       <h1>Ask the<br /><em>real economy.</em></h1>
-      <p className="intro">A growing memory of how businesses operate and change across African markets. Answers grounded in what we have actually observed.</p>
+      <p className="intro">Understand how businesses in this market operate. Start with the evidence, identify what your decision still needs, and scope a focused return to the field.</p>
+      <div className="hero-actions"><a href="#market-brief">Read the market brief ↓</a><a href="#sample-deliverable">See an example deliverable ↓</a></div>
       <div className={`evidence-status status-${connection.mode}`} aria-live="polite">
         <div className="status-heading"><RefreshCw size={15} /><strong>{connection.mode === 'live' ? 'Source connected' : connection.mode === 'stale' ? 'Last validated analysis' : 'Validated snapshot'}</strong></div>
         <p>{connection.message}</p>
@@ -85,11 +90,16 @@ export default function Page() {
         </select>
         <span>{coverage.length} published market cluster{coverage.length === 1 ? '' : 's'}</span>
       </div>
+    </section>
+    <MarketBrief data={data} onInvestigate={investigate} onInspect={ask} />
+    <section className="supported" id="ask" aria-labelledby="supported-title">
+      <div className="overline">ASK WITHIN THE EVIDENCE</div><h2 id="supported-title">Start with a supported question.</h2><p>These six topics are supported for the current Lagos cohort. Broader questions can become an optional investigation enquiry.</p>
+      <div className="prompts"><div className="promptgrid">{signals.filter(s => s.id !== 'coverage').map(s => <button key={s.id} onClick={() => ask(s.question)}>{s.question}<MoveUpRight size={17} /></button>)}</div></div>
       <form onSubmit={event => { event.preventDefault(); ask(); }} className="askbox">
-        <Search size={22} /><input aria-label="Ask ERI" placeholder="What do you want to know about the market?" value={q} onChange={event => setQ(event.target.value)} />
+        <Search size={22} /><input aria-label="Ask ERI" placeholder="Ask about payments, records, conditions, restocking, credit or remote orders" value={q} onChange={event => setQ(event.target.value)} />
         <button aria-label="Submit question" disabled={!q.trim()}><ArrowRight size={22} /></button>
       </form>
-      <div className="prompts"><span>START WITH A QUESTION</span><div className="promptgrid">{signals.filter(s => s.id !== 'coverage').slice(0, 4).map(s => <button key={s.id} onClick={() => ask(s.question)}>{s.question}<MoveUpRight size={17} /></button>)}</div></div>
+      <p>Have a decision beyond these topics? <button className="investigation-link" onClick={() => investigate({question:q,audience:'research'})}>Help ERI investigate a question ↗</button></p><p className="disclaimer">Typing a question does not save it. It is stored only if you explicitly submit an enquiry.</p>
       <p className="disclaimer">{quality.includedRows} eligible initial observations; {quality.provisionalIdentityRows} with unverified identities. {quality.identityReviewRows} included observations await identity review and may be repeat submissions. This non-representative Lagos cohort does not establish unique business counts or measured longitudinal change.</p>
     </section>
     <section className="answerwrap" id="answer" aria-live="polite">
@@ -100,10 +110,11 @@ export default function Page() {
         <div className="source"><ShieldCheck size={17} />{period.label} · Initial observations · {evidence.version}</div>
       </article> : <article className="answer">
         <div className="overline">ERI / COVERAGE LIMIT</div><h2>We don&apos;t have a verified answer to that yet.</h2>
-        <p className="lead">This question is outside the published findings or does not have enough classifiable responses. Try a single topic within the current Yaba cohort.</p>
+        <p className="lead">This question is outside the published findings or does not have enough classifiable responses. Try a single topic within the current Yaba cohort.</p><button className="investigation-link" onClick={() => investigate({question:submitted || '',audience:'research'})}>Turn this into an investigation enquiry ↗</button><p>Your question is saved only if you submit the enquiry; new coverage must be scoped.</p>
         <div className="source"><ShieldCheck size={17} />No invented figures. No claims beyond current evidence.</div>
       </article>)}
     </section>
+    <DecisionHub data={data} investigation={investigation} onExploreEvidence={() => ask('Are restocking costs changing?')} />
     <section className="explore" id="coverage">
       <div className="sectiontop"><div><div className="overline">THE FIELD COVERAGE REGISTER</div><h2>Where we have<br /><em>evidence.</em></h2></div><p>Every published cohort carries its own dates, denominator and limitations.</p></div>
       <div className="coveragegrid">{coverage.map(c => <article className="coveragecard" key={c.id}>
@@ -149,7 +160,7 @@ export default function Page() {
         <div className="methodtags"><span><MapPin size={15} /> Lagos, Nigeria</span><span><CalendarDays size={15} /> Initial observations</span><span><ShieldCheck size={15} /> Aggregates only</span></div>
       </div>
     </section>
-    <DecisionHub data={data} onExploreEvidence={() => ask('Are restocking costs changing?')} />
+
     <footer><div className="wordmark">eri<span className="dot">.</span></div><p>Built from the ground up. Remembering the real economy.</p><a href="/privacy">Privacy</a><a href="#notifications">Follow signals</a><a href="https://www.useeri.com">Explore ERI <ArrowUpRight size={16} /></a></footer>
   </main>;
 }
